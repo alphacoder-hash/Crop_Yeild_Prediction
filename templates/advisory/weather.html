@@ -1,0 +1,51 @@
+{% extends 'advisory/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4">Weather Forecast</h2>
+
+    <!-- Location Input Form -->
+    <div class="mb-4">
+        <form method="get" class="d-flex justify-content-center">
+            <div class="input-group" style="max-width: 400px;">
+                <input type="text" name="location" class="form-control" placeholder="Enter city name" value="{{ location }}" required>
+                <button class="btn btn-primary" type="submit">Get Forecast</button>
+            </div>
+        </form>
+    </div>
+
+    {% if location %}
+        <h3 class="mb-4">Weather for {{ location }}</h3>
+    {% endif %}
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% else %}
+        <div class="current-weather mb-4 p-4 bg-light rounded shadow-sm">
+            <h4>Current Weather</h4>
+            <p><strong>Temperature:</strong> {{ current_weather.main.temp }} °C</p>
+            <p><strong>Humidity:</strong> {{ current_weather.main.humidity }}%</p>
+            <p><strong>Conditions:</strong> {{ current_weather.weather.0.description|title }}</p>
+            <p><strong>Wind Speed:</strong> {{ current_weather.wind.speed }} m/s</p>
+            <img src="http://openweathermap.org/img/wn/{{ current_weather.weather.0.icon }}@2x.png" alt="Weather icon">
+        </div>
+
+        <h4>5-Day Forecast</h4>
+        <div class="row">
+            {% for day in daily_forecasts %}
+            <div class="col-md-2 mb-3">
+                <div class="card text-center p-3 shadow-sm">
+                    <h5>{{ day.date }}</h5>
+                    <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="Weather icon">
+                    <p>{{ day.description|title }}</p>
+                    <p>Min: {{ day.temp_min }} °C</p>
+                    <p>Max: {{ day.temp_max }} °C</p>
+                    <p>Humidity: {{ day.humidity }}%</p>
+                    <p>Wind: {{ day.wind_speed }} m/s</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
