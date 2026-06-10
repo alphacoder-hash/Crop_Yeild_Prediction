@@ -1,51 +1,219 @@
 {% extends 'advisory/base.html' %}
-
+{% load i18n %}
+{% block title %}{% trans "Weather Forecast" %} — Krishi Salahkar{% endblock %}
 {% block content %}
-<div class="container py-5">
-    <h2 class="mb-4">Weather Forecast</h2>
 
-    <!-- Location Input Form -->
-    <div class="mb-4">
-        <form method="get" class="d-flex justify-content-center">
-            <div class="input-group" style="max-width: 400px;">
-                <input type="text" name="location" class="form-control" placeholder="Enter city name" value="{{ location }}" required>
-                <button class="btn btn-primary" type="submit">Get Forecast</button>
-            </div>
-        </form>
-    </div>
+<div class="split-page">
+    <div class="container-fluid h-100 p-0">
+        <div class="row g-0 h-100">
 
-    {% if location %}
-        <h3 class="mb-4">Weather for {{ location }}</h3>
-    {% endif %}
+            <!-- LEFT -->
+            <div class="col-lg-4 split-left d-flex flex-column justify-content-center p-5" data-intro="Use this panel to search for any city's weather or click 'Use My Location' to get your live weather automatically." data-step="1">
+                <div class="sl-badge mb-3"><i class="fas fa-cloud-sun me-2"></i>{% trans "Live Weather" %}</div>
+                <h1 class="sl-title mb-2">{% trans "Weather" %}<br><span>{% trans "Forecast" %}</span></h1>
+                <p class="sl-subtitle mb-4">{% trans "Real-time weather powered by Open-Meteo — free, accurate, no API key needed." %}</p>
 
-    {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-    {% else %}
-        <div class="current-weather mb-4 p-4 bg-light rounded shadow-sm">
-            <h4>Current Weather</h4>
-            <p><strong>Temperature:</strong> {{ current_weather.main.temp }} °C</p>
-            <p><strong>Humidity:</strong> {{ current_weather.main.humidity }}%</p>
-            <p><strong>Conditions:</strong> {{ current_weather.weather.0.description|title }}</p>
-            <p><strong>Wind Speed:</strong> {{ current_weather.wind.speed }} m/s</p>
-            <img src="http://openweathermap.org/img/wn/{{ current_weather.weather.0.icon }}@2x.png" alt="Weather icon">
-        </div>
+                <!-- Live location button -->
+                <button id="geoBtn" class="sl-geo-btn mb-3" onclick="fetchLiveLocation()">
+                    <i class="fas fa-location-arrow me-2"></i>{% trans "Use My Location" %}
+                </button>
+                <div id="geoStatus" class="sl-geo-status mb-3" style="display:none;"></div>
 
-        <h4>5-Day Forecast</h4>
-        <div class="row">
-            {% for day in daily_forecasts %}
-            <div class="col-md-2 mb-3">
-                <div class="card text-center p-3 shadow-sm">
-                    <h5>{{ day.date }}</h5>
-                    <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="Weather icon">
-                    <p>{{ day.description|title }}</p>
-                    <p>Min: {{ day.temp_min }} °C</p>
-                    <p>Max: {{ day.temp_max }} °C</p>
-                    <p>Humidity: {{ day.humidity }}%</p>
-                    <p>Wind: {{ day.wind_speed }} m/s</p>
+                <form method="get" class="mb-4" id="weatherForm">
+                    <label class="sl-label mb-2">{% trans "Or Search City" %}</label>
+                    <div class="sl-search-wrap">
+                        <i class="fas fa-search sl-search-icon"></i>
+                        <input type="text" name="location" id="locationInput" class="sl-search-input"
+                            placeholder="{% trans 'Enter city name...' %}"
+                            value="{{ location }}" required>
+                        <button type="submit" class="sl-search-btn"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </form>
+
+                <div class="sl-label mb-2">{% trans "Quick Cities" %}</div>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="?location=Bhubaneswar" class="sl-chip">Bhubaneswar</a>
+                    <a href="?location=Cuttack" class="sl-chip">Cuttack</a>
+                    <a href="?location=Puri" class="sl-chip">Puri</a>
+                    <a href="?location=Sambalpur" class="sl-chip">Sambalpur</a>
+                    <a href="?location=Berhampur" class="sl-chip">Berhampur</a>
+                    <a href="?location=Rourkela" class="sl-chip">Rourkela</a>
+                    <a href="?location=Balasore" class="sl-chip">Balasore</a>
+                    <a href="?location=Koraput" class="sl-chip">Koraput</a>
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- RIGHT -->
+            <div class="col-lg-8 split-right d-flex flex-column justify-content-center p-4 p-md-5">
+
+                {% if auto_locate %}
+                <!-- Auto-locate loading state -->
+                <div class="text-center py-5" id="autoLocateBox">
+                    <div style="font-size:4rem;" id="locIcon">📍</div>
+                    <h5 class="fw-bold mt-3 mb-2" id="locTitle">{% trans "Getting Your Location..." %}</h5>
+                    <p class="text-muted" id="locMsg">{% trans "Please allow location access to see your local weather." %}</p>
+                    <div class="spinner-border text-success mt-2" id="locSpinner" role="status"></div>
+                </div>
+
+                {% elif error %}
+                <div class="text-center py-5">
+                    <div style="font-size:4rem;">⚠️</div>
+                    <h5 class="fw-bold mt-3 mb-2 text-danger">{{ error }}</h5>
+                    <p class="text-muted">{% trans "Please check the city name and try again." %}</p>
+                </div>
+
+                {% elif current_weather %}
+                <div class="sr-header mb-3" data-intro="This shows the current weather for your location including temperature, humidity, wind speed and visibility." data-step="2">
+                    <h4 class="fw-bold mb-0"><i class="fas fa-map-marker-alt text-success me-2"></i>{{ location }}</h4>
+                    <p class="text-muted small mb-0">{% trans "Current conditions & 5-day forecast" %}</p>
+                </div>
+
+                <div class="weather-card mb-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-auto text-center">
+                            <div style="font-size:3.5rem;line-height:1;">{{ current_weather.icon }}</div>
+                            <div class="fw-black" style="font-size:2rem;color:#145214;font-weight:900;">{{ current_weather.temp }}°C</div>
+                            <div class="text-muted small fw-semibold">{{ current_weather.description }}</div>
+                        </div>
+                        <div class="col">
+                            <div class="row g-2">
+                                <div class="col-6 col-md-3"><div class="w-stat-card">🌡️<div class="wsv">{{ current_weather.feels_like }}°C</div><div class="wsl">{% trans "Feels Like" %}</div></div></div>
+                                <div class="col-6 col-md-3"><div class="w-stat-card">💧<div class="wsv">{{ current_weather.humidity }}%</div><div class="wsl">{% trans "Humidity" %}</div></div></div>
+                                <div class="col-6 col-md-3"><div class="w-stat-card">💨<div class="wsv">{{ current_weather.wind_speed }}</div><div class="wsl">km/h</div></div></div>
+                                <div class="col-6 col-md-3"><div class="w-stat-card">👁️<div class="wsv">{{ current_weather.visibility }}</div><div class="wsl">m vis.</div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sr-label mb-3" data-intro="The 5-day forecast helps you plan irrigation, harvesting and field work in advance." data-step="3">📅 {% trans "5-Day Forecast" %}</div>
+                <div class="row g-2 mb-4">
+                    {% for day in daily_forecasts %}
+                    <div class="col">
+                        <div class="forecast-card text-center">
+                            <div class="fc-date">{{ day.date|slice:"5:" }}</div>
+                            <div class="fc-icon">{{ day.icon }}</div>
+                            <div class="fc-desc">{{ day.description|truncatechars:9 }}</div>
+                            <div class="fc-temps"><span class="text-danger fw-bold">↑{{ day.temp_max }}°</span><br><span class="text-primary fw-bold">↓{{ day.temp_min }}°</span></div>
+                            <div class="fc-meta">💧{{ day.humidity }}%</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="advisory-box" data-intro="This farming advisory gives you crop-specific tips based on today's weather conditions." data-step="4">
+                    <div class="advisory-title"><i class="fas fa-seedling text-success me-2"></i>{% trans "Farming Advisory" %}</div>
+                    <div class="advisory-text">
+                        {% if current_weather.temp > 35 %}🌡️ <strong>{% trans "High Temp Alert:" %}</strong> {% trans "Increase irrigation frequency. Avoid pesticide spraying 11am–3pm." %}
+                        {% elif current_weather.temp < 15 %}❄️ <strong>{% trans "Cool Weather:" %}</strong> {% trans "Good for Rabi crops. Protect seedlings from frost." %}
+                        {% else %}✅ <strong>{% trans "Good Conditions:" %}</strong> {% trans "Favorable for sowing and transplanting most crops." %}
+                        {% endif %}
+                        {% if current_weather.humidity > 80 %} &nbsp;|&nbsp; 💧 {% trans "High humidity — watch for fungal diseases." %}{% endif %}
+                        {% if current_weather.wind_speed > 30 %} &nbsp;|&nbsp; 💨 {% trans "Strong winds — avoid spraying." %}{% endif %}
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="text-center py-5">
+                    <div style="font-size:5rem;">🌤️</div>
+                    <h5 class="fw-bold mt-3 mb-2">{% trans "Search for a City" %}</h5>
+                    <p class="text-muted">{% trans "Enter a city name on the left or click 'Use My Location'." %}</p>
+                </div>
+                {% endif %}
+
+            </div>
         </div>
-    {% endif %}
+    </div>
 </div>
+
+{% endblock %}
+{% block extra_js %}
+<style>
+.split-page { min-height: calc(100vh - 70px); display: flex; }
+.split-left { background: linear-gradient(160deg,#0b3d0b 0%,#145214 60%,#1b5e20 100%); position: relative; overflow: hidden; }
+.split-left::after { content: '🌤️'; position: absolute; font-size: 14rem; opacity: 0.05; bottom: -2rem; right: -2rem; pointer-events: none; }
+.sl-badge { display: inline-flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 6px 16px; color: #fff; font-size: 0.82rem; font-weight: 600; width: fit-content; }
+.sl-title { font-size: clamp(2rem,4vw,3rem); font-weight: 900; color: #fff; line-height: 1.1; }
+.sl-title span { color: #a5d6a7; }
+.sl-subtitle { color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.65; }
+.sl-label { color: rgba(255,255,255,0.9); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.5px; text-transform: uppercase; }
+.sl-geo-btn { background: rgba(255,255,255,0.2); border: 1.5px solid rgba(255,255,255,0.5); border-radius: 12px; color: #fff; padding: 10px 16px; font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: all 0.2s; width: 100%; text-align: left; }
+.sl-geo-btn:hover { background: rgba(255,255,255,0.3); }
+.sl-geo-status { font-size: 0.82rem; color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 12px; }
+.sl-search-wrap { display: flex; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.35); border-radius: 12px; overflow: hidden; }
+.sl-search-icon { padding: 0 12px; color: rgba(255,255,255,0.7); display: flex; align-items: center; }
+.sl-search-input { flex: 1; background: transparent; border: none; outline: none; color: #fff; padding: 11px 8px; font-size: 0.92rem; }
+.sl-search-input::placeholder { color: rgba(255,255,255,0.5); }
+.sl-search-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 0 16px; cursor: pointer; transition: background 0.2s; }
+.sl-search-btn:hover { background: rgba(255,255,255,0.35); }
+.sl-chip { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 4px 12px; color: rgba(255,255,255,0.9); font-size: 0.78rem; text-decoration: none; transition: all 0.2s; }
+.sl-chip:hover { background: rgba(255,255,255,0.28); color: #fff; }
+.split-right { background: #f5f7f5; overflow-y: auto; }
+.sr-header h4 { color: #1a1a1a; }
+.sr-label { font-weight: 700; font-size: 0.82rem; color: #555; letter-spacing: 0.5px; text-transform: uppercase; }
+.weather-card { background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.07); border: 1px solid #e8f0e8; }
+.w-stat-card { background: #f0f7f0; border-radius: 10px; padding: 10px 6px; text-align: center; }
+.wsv { font-size: 1rem; font-weight: 800; color: #145214; }
+.wsl { font-size: 0.7rem; color: #666; margin-top: 2px; }
+.forecast-card { background: #fff; border-radius: 12px; padding: 10px 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e8f0e8; transition: all 0.2s; }
+.forecast-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0,0,0,0.1); }
+.fc-date { font-size: 0.7rem; font-weight: 700; color: #888; }
+.fc-icon { font-size: 1.6rem; margin: 4px 0; }
+.fc-desc { font-size: 0.68rem; color: #555; font-weight: 600; margin-bottom: 4px; }
+.fc-temps { font-size: 0.78rem; line-height: 1.4; }
+.fc-meta { font-size: 0.68rem; color: #888; margin-top: 3px; }
+.advisory-box { background: #e8f5e8; border-left: 4px solid #145214; border-radius: 10px; padding: 14px 16px; }
+.advisory-title { font-weight: 700; font-size: 0.9rem; color: #145214; margin-bottom: 6px; }
+.advisory-text { font-size: 0.85rem; color: #2e7d32; line-height: 1.6; }
+@media(max-width:991px){ .split-left { padding: 36px 24px !important; } .split-right { padding: 24px !important; } }
+</style>
+<script>
+// ── LIVE LOCATION ──
+function fetchLiveLocation() {
+    const btn = document.getElementById('geoBtn');
+    const status = document.getElementById('geoStatus');
+    if (!navigator.geolocation) {
+        showGeoStatus('❌ Geolocation not supported by your browser.', 'error');
+        return;
+    }
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Detecting location...';
+    btn.disabled = true;
+    status.style.display = 'block';
+    status.textContent = '📍 Requesting location access...';
+
+    navigator.geolocation.getCurrentPosition(
+        function(pos) {
+            const lat = pos.coords.latitude.toFixed(4);
+            const lon = pos.coords.longitude.toFixed(4);
+            status.textContent = '✅ Location found! Loading weather...';
+            window.location.href = '/weather/?lat=' + lat + '&lon=' + lon;
+        },
+        function(err) {
+            btn.innerHTML = '<i class="fas fa-location-arrow me-2"></i>Use My Location';
+            btn.disabled = false;
+            const msgs = {
+                1: '❌ Location access denied. Please allow location in browser settings.',
+                2: '❌ Location unavailable. Try searching manually.',
+                3: '❌ Location request timed out. Try again.'
+            };
+            showGeoStatus(msgs[err.code] || '❌ Could not get location.', 'error');
+        },
+        { timeout: 10000, maximumAge: 300000 }
+    );
+}
+
+function showGeoStatus(msg, type) {
+    const el = document.getElementById('geoStatus');
+    el.style.display = 'block';
+    el.textContent = msg;
+    el.style.background = type === 'error' ? 'rgba(220,53,69,0.2)' : 'rgba(255,255,255,0.1)';
+}
+
+// Auto-trigger geolocation if page loaded without any location
+{% if auto_locate %}
+window.addEventListener('load', function() {
+    setTimeout(fetchLiveLocation, 500);
+});
+{% endif %}
+</script>
 {% endblock %}

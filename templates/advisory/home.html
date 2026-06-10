@@ -7,49 +7,132 @@
     {% csrf_token %}
 </form>
 
-<div class="hero-section text-center">
-    <div class="floating-elements"></div>
-    <div class="container position-relative">
-        <div class="fade-in-up">
-                    <h1 class="display-3 mb-4 fw-bold">
-                        <i class="fas fa-seedling me-3 pulse"></i>
-                        {% trans "AI-Driven Agricultural Advisory Platform" %}
-                    </h1>
-                    <p class="lead mb-5 fs-4">{% trans "Empowering Odisha farmers with intelligent crop yield predictions and personalized recommendations" %}</p>
-                    <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
-                        <a href="{% url 'farm_input' %}" class="btn btn-light btn-lg px-5 py-3">
-                            <i class="fas fa-chart-line me-2"></i>{% trans "Get Your Crop Advisory" %}
-                        </a>
-                        <a href="{% url 'weather_forecast' %}" class="btn btn-outline-light btn-lg px-5 py-3">
-                            <i class="fas fa-cloud-sun me-2"></i>{% trans "Check Weather" %}
-                        </a>
-                        <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-5 py-3">
-                            <i class="fas fa-envelope me-2"></i>{% trans "Connect" %}
-                        </a>
-                        <a href="#features" class="btn btn-outline-light btn-lg px-5 py-3">
-                            <i class="fas fa-info-circle me-2"></i>{% trans "Learn More" %}
-                        </a>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+body { font-family: 'Plus Jakarta Sans', sans-serif !important; }
+.new-hero {
+    background: linear-gradient(135deg, #052e05 0%, #0b3d0b 45%, #145214 100%);
+    position: relative; overflow: hidden;
+    min-height: 92vh; display: flex; align-items: center;
+    padding: 110px 0 90px;
+}
+.new-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600&q=80&auto=format&fit=crop');
+    background-size: cover; background-position: center; opacity: 0.07;
+}
+.new-hero::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+    height: 90px; background: linear-gradient(to top, #f1f8e9, transparent);
+}
+.hero-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(165,214,167,0.35);
+    border-radius: 50px; padding: 7px 20px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: #a5d6a7; margin-bottom: 1.6rem;
+    backdrop-filter: blur(8px);
+}
+.hero-pill .dot { width:8px; height:8px; background:#4caf50; border-radius:50%; animation: pdot 1.5s infinite; }
+@keyframes pdot { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+.new-hero-title {
+    font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 800;
+    line-height: 1.1; color: #fff; margin-bottom: 1.4rem; letter-spacing: -1px;
+}
+.new-hero-title .hl {
+    background: linear-gradient(135deg, #a5d6a7, #69f0ae);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.new-hero-sub {
+    font-size: 1.08rem; color: rgba(255,255,255,0.72);
+    max-width: 520px; line-height: 1.85; margin-bottom: 2.5rem; font-weight: 400;
+}
+.hcta-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, #ff6b35, #ff8a50);
+    color: #fff; font-weight: 700; font-size: 0.96rem;
+    padding: 15px 34px; border-radius: 50px; text-decoration: none;
+    box-shadow: 0 8px 24px rgba(255,107,53,0.45); transition: all 0.3s;
+}
+.hcta-primary:hover { transform:translateY(-3px); box-shadow:0 14px 32px rgba(255,107,53,0.6); color:#fff; }
+.hcta-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.3);
+    color: #fff; font-weight: 600; font-size: 0.93rem;
+    padding: 14px 28px; border-radius: 50px; text-decoration: none;
+    backdrop-filter: blur(8px); transition: all 0.3s;
+}
+.hcta-secondary:hover { background:rgba(255,255,255,0.18); border-color:#fff; color:#fff; transform:translateY(-2px); }
+.hero-trust {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 2.2rem; color: rgba(255,255,255,0.5); font-size: 0.82rem;
+}
+.trust-avatars { display:flex; }
+.trust-avatars span {
+    width:32px; height:32px; border-radius:50%;
+    border: 2px solid rgba(255,255,255,0.25);
+    background: linear-gradient(135deg,#2e7d32,#66bb6a);
+    display:flex; align-items:center; justify-content:center;
+    font-size:0.72rem; color:#fff; font-weight:700; margin-left:-8px;
+}
+.trust-avatars span:first-child { margin-left:0; }
+.hstats-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.hstat {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 22px; padding: 26px 20px; text-align: center;
+    backdrop-filter: blur(12px); transition: all 0.3s; position: relative; overflow: hidden;
+}
+.hstat::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, rgba(165,214,167,0.5), transparent);
+}
+.hstat:hover { transform:translateY(-5px); background:rgba(255,255,255,0.11); }
+.hstat-icon { font-size:1.5rem; margin-bottom:10px; }
+.hstat-val {
+    font-size: 2.6rem; font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, #a5d6a7);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+.hstat-lbl { font-size: 0.77rem; color: rgba(255,255,255,0.55); margin-top:6px; font-weight:500; letter-spacing:0.3px; }
+</style>
+
+<div class="new-hero">
+    <div class="container position-relative" style="z-index:2;">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 fade-in-up">
+                <div class="hero-pill"><span class="dot"></span> AI-Powered Platform</div>
+                <h1 class="new-hero-title">
+                    Smart Farming<br>for <span class="hl">Odisha Farmers</span>
+                </h1>
+                <p class="new-hero-sub">
+                    AI-driven crop yield predictions, personalized recommendations, and real-time weather insights — tailored for all 30 districts of Odisha.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'farm_input' %}" class="hcta-primary">
+                        <i class="fas fa-chart-line"></i> Get Crop Advisory
+                    </a>
+                    <a href="{% url 'weather_forecast' %}" class="hcta-secondary">
+                        <i class="fas fa-cloud-sun"></i> Check Weather
+                    </a>
+                    <a href="#ai-query" class="hcta-secondary">
+                        <i class="fas fa-robot"></i> Ask AI
+                    </a>
+                </div>
+                <div class="hero-trust">
+                    <div class="trust-avatars">
+                        <span>A</span><span>R</span><span>S</span><span>M</span>
                     </div>
-        </div>
-        
-        <!-- Stats Section -->
-        <div class="row mt-5 pt-5">
-            <div class="col-md-4 mb-3">
-                <div class="glass-effect p-4 rounded-3 text-center">
-                    <div class="metric-value">30+</div>
-                    <div class="metric-label text-light">{% trans "Districts Covered" %}</div>
+                    <span>Trusted by <strong style="color:rgba(255,255,255,0.85);">10,000+</strong> farmers across Odisha</span>
                 </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <div class="glass-effect p-4 rounded-3 text-center">
-                    <div class="metric-value">8</div>
-                    <div class="metric-label text-light">{% trans "Major Crops" %}</div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <div class="glass-effect p-4 rounded-3 text-center">
-                    <div class="metric-value">95%</div>
-                    <div class="metric-label text-light">{% trans "Accuracy Rate" %}</div>
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <div class="hstats-grid">
+                    <div class="hstat"><div class="hstat-icon">🗺️</div><div class="hstat-val">30+</div><div class="hstat-lbl">Districts Covered</div></div>
+                    <div class="hstat"><div class="hstat-icon">🌾</div><div class="hstat-val">8</div><div class="hstat-lbl">Major Crops</div></div>
+                    <div class="hstat"><div class="hstat-icon">🎯</div><div class="hstat-val">95%</div><div class="hstat-lbl">Accuracy Rate</div></div>
+                    <div class="hstat"><div class="hstat-icon">📅</div><div class="hstat-val">3</div><div class="hstat-lbl">Crop Seasons</div></div>
                 </div>
             </div>
         </div>
@@ -57,36 +140,98 @@
 </div>
 
 <!-- AI Query Section -->
-<div class="container py-5" id="ai-query">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header text-center" style="background: linear-gradient(135deg, var(--secondary-green), var(--light-green)); color: white;">
-                    <h3 class="mb-0"><i class="fas fa-robot me-2"></i>{% trans "Krishi Salahkar AI" %}</h3>
-                    <p class="mb-0 small">{% trans "Your Intelligent Agricultural Assistant" %}</p>
-                </div>
-                <div class="card-body p-4">
-                    <p class="text-center text-muted mb-4">{% trans "Ask me anything about farming, crops, irrigation, pests, or agricultural practices in Odisha!" %}</p>
+<style>
+.ai-section { background: linear-gradient(180deg, #f4faf4 0%, #edf7ed 100%); padding: 80px 0; }
+.ai-card {
+    background: #fff; border-radius: 28px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+    overflow: hidden; border: 1px solid #e8f5e9;
+}
+.ai-card-header {
+    background: linear-gradient(135deg, #052e05, #145214);
+    padding: 28px 32px; text-align: center;
+}
+.ai-card-header h3 { color:#fff; font-size:1.4rem; font-weight:800; margin-bottom:4px; }
+.ai-card-header p  { color:rgba(255,255,255,0.6); font-size:0.85rem; margin:0; }
+.ai-card-body { padding: 28px 32px; }
+.ai-hint { text-align:center; color:#6b7280; font-size:0.88rem; margin-bottom:20px; }
+#chatMessages {
+    max-height:380px; overflow-y:auto;
+    background:#f9fafb; border:1px solid #e5e7eb;
+    border-radius:16px; padding:18px; margin-bottom:20px;
+}
+#chatMessages::-webkit-scrollbar { width:4px; }
+#chatMessages::-webkit-scrollbar-thumb { background:#c8e6c9; border-radius:4px; }
+.bot-message { margin-bottom:12px; }
+.bot-message .message-content {
+    display:inline-block;
+    background:linear-gradient(135deg,#145214,#2e7d32);
+    color:#fff; padding:12px 18px; border-radius:4px 18px 18px 18px;
+    max-width:82%; font-size:0.9rem; line-height:1.6; white-space:pre-line; word-wrap:break-word;
+}
+.user-message { display:flex; justify-content:flex-end; margin-bottom:12px; }
+.user-message .message-content {
+    background:#f0fdf4; color:#0b3d0b; border:1px solid #bbf7d0;
+    padding:12px 18px; border-radius:18px 4px 18px 18px;
+    max-width:82%; font-size:0.9rem; line-height:1.6; word-wrap:break-word;
+}
+.ai-input-row { display:flex; gap:10px; }
+.ai-input {
+    flex:1; border:1.5px solid #e5e7eb; border-radius:50px;
+    padding:13px 22px; font-size:0.93rem; outline:none;
+    transition:all 0.25s; font-family:inherit; background:#fafafa;
+}
+.ai-input:focus { border-color:#145214; background:#fff; box-shadow:0 0 0 3px rgba(20,82,20,0.08); }
+.ai-send-btn {
+    background:linear-gradient(135deg,#145214,#2e7d32);
+    color:#fff; border:none; border-radius:50px;
+    padding:13px 28px; font-weight:700; font-size:0.9rem;
+    cursor:pointer; transition:all 0.3s; font-family:inherit;
+    display:flex; align-items:center; gap:8px;
+    box-shadow:0 4px 14px rgba(20,82,20,0.3);
+}
+.ai-send-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(20,82,20,0.4); }
+.typing-dots { display:flex; gap:4px; padding:4px 0; }
+.typing-dots span { width:8px; height:8px; background:rgba(255,255,255,0.8); border-radius:50%; animation:typingAnim 1.4s infinite; }
+.typing-dots span:nth-child(2){animation-delay:0.2s;}
+.typing-dots span:nth-child(3){animation-delay:0.4s;}
+@keyframes typingAnim{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-8px);}}
+</style>
 
-                    <!-- Chat Messages Area -->
-                    <div class="chat-messages mb-4" id="chatMessages" style="max-height: 400px; overflow-y: auto; border: 1px solid #e9ecef; border-radius: 10px; padding: 15px; background: #f8f9fa;">
-                        <div class="bot-message">
-                            <div class="message-content">
-                                <p class="mb-0">नमस्ते! मैं कृषि सलाहकार हूं। आपकी फसल और खेती से संबंधित कोई भी सवाल पूछ सकते हैं।</p>
-                                <p class="mb-0">Hello! I'm Krishi Salahkar, your agricultural assistant. Ask me anything about farming!</p>
+<div class="ai-section" id="ai-query">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="sec-label">🤖 AI Assistant</div>
+            <h2 class="sec-title">Krishi Salahkar AI</h2>
+            <p class="sec-sub">Ask anything about farming, crops, irrigation, pests, or agricultural practices in Odisha</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="ai-card">
+                    <div class="ai-card-header">
+                        <h3>🤖 {% trans "Krishi Salahkar AI" %}</h3>
+                        <p>{% trans "Your Intelligent Agricultural Assistant" %}</p>
+                    </div>
+                    <div class="ai-card-body">
+                        <div id="chatMessages">
+                            <div class="bot-message">
+                                <div class="message-content">
+                                    <p class="mb-0">नमस्ते! मैं कृषि सलाहकार हूं। आपकी फसल और खेती से संबंधित कोई भी सवाल पूछ सकते हैं।</p>
+                                    <p class="mb-0">Hello! I’m Krishi Salahkar, your agricultural assistant. Ask me anything about farming!</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Query Input Form -->
-                    <div class="input-group">
-                        <input type="text" class="form-control form-control-lg" id="chatInput" placeholder="{% trans 'Type your farming question here...' %}" onkeypress="handleKeyPress(event)" style="border-radius: 25px 0 0 25px;">
-                        <button class="btn btn-success btn-lg" onclick="sendMessage()" id="sendButton" style="border-radius: 0 25px 25px 0; padding: 0 30px;">
-                            <i class="fas fa-paper-plane"></i> {% trans "Ask" %}
-                        </button>
-                    </div>
-                    <div class="text-center mt-3">
-                        <small class="text-muted">{% trans "Get instant AI-powered agricultural advice" %}</small>
+                        <div class="ai-input-row">
+                            <input type="text" class="ai-input" id="chatInput"
+                                placeholder="{% trans 'Type your farming question here...' %}"
+                                onkeypress="handleKeyPress(event)">
+                            <button class="ai-send-btn" onclick="sendMessage()" id="sendButton">
+                                <i class="fas fa-paper-plane"></i> {% trans "Ask" %}
+                            </button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <small style="color:#9ca3af;font-size:0.78rem;">{% trans "Get instant AI-powered agricultural advice" %}</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -94,223 +239,238 @@
     </div>
 </div>
 
-<div class="container py-5" id="features">
+<style>
+.features-section { background: #f4faf4; padding: 90px 0 60px; }
+.sec-label {
+    display: inline-block;
+    background: #e8f5e9; color: #2e7d32;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 50px;
+    margin-bottom: 14px;
+}
+.sec-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800; color: #0b3d0b; letter-spacing: -0.5px; margin-bottom: 12px;
+}
+.sec-sub { font-size: 1rem; color: #6b7280; max-width: 500px; margin: 0 auto; line-height: 1.7; }
+
+.fcard {
+    background: #fff;
+    border-radius: 24px;
+    padding: 36px 28px;
+    border: 1px solid #e8f5e9;
+    transition: all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+    position: relative; overflow: hidden; height: 100%;
+}
+.fcard::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    opacity: 0; transition: opacity 0.3s;
+}
+.fcard-green::before  { background: linear-gradient(90deg, #145214, #66bb6a); }
+.fcard-blue::before   { background: linear-gradient(90deg, #1565c0, #42a5f5); }
+.fcard-orange::before { background: linear-gradient(90deg, #e65100, #ffa726); }
+.fcard:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-color: transparent; }
+.fcard:hover::before { opacity: 1; }
+
+.fcard-icon-wrap {
+    width: 68px; height: 68px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.7rem; margin-bottom: 22px;
+}
+.fcard-green  .fcard-icon-wrap { background: #e8f5e9; }
+.fcard-blue   .fcard-icon-wrap { background: #e3f2fd; }
+.fcard-orange .fcard-icon-wrap { background: #fff3e0; }
+
+.fcard-title { font-size: 1.15rem; font-weight: 700; color: #0b3d0b; margin-bottom: 10px; }
+.fcard-desc  { font-size: 0.9rem; color: #6b7280; line-height: 1.75; margin-bottom: 20px; }
+.fcard-tags  { display: flex; gap: 8px; flex-wrap: wrap; }
+.ftag {
+    font-size: 0.72rem; font-weight: 600; padding: 4px 12px;
+    border-radius: 50px; letter-spacing: 0.3px;
+}
+.ftag-green  { background: #e8f5e9; color: #2e7d32; }
+.ftag-blue   { background: #e3f2fd; color: #1565c0; }
+.ftag-orange { background: #fff3e0; color: #e65100; }
+.ftag-teal   { background: #e0f2f1; color: #00695c; }
+.ftag-red    { background: #fce4ec; color: #c62828; }
+</style>
+
+<div class="features-section" id="features">
+<div class="container">
     <div class="text-center mb-5">
-        <h2 class="display-5 fw-bold mb-3">{% trans "Why Choose Krishi Salahkar?" %}</h2>
-        <p class="lead text-muted">{% trans "Advanced AI technology meets traditional farming wisdom" %}</p>
+        <div class="sec-label">Why Us</div>
+        <h2 class="sec-title">Why Choose Krishi Salahkar?</h2>
+        <p class="sec-sub">Advanced AI technology meets traditional farming wisdom</p>
     </div>
-    
-    <div class="row g-4">
+    <div class="row g-4 mb-5">
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 text-center p-4 border-0">
-                <div class="feature-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                <h4 class="mb-3">{% trans "AI-Powered Predictions" %}</h4>
-                <p class="text-muted">{% trans "Advanced machine learning models analyze multiple factors to predict crop yields with 95% accuracy using historical data and real-time conditions." %}</p>
-                <div class="mt-auto">
-                    <span class="badge bg-success">{% trans "Machine Learning" %}</span>
-                    <span class="badge bg-info">{% trans "Data Analytics" %}</span>
+            <div class="fcard fcard-green">
+                <div class="fcard-icon-wrap">🧠</div>
+                <div class="fcard-title">AI-Powered Predictions</div>
+                <p class="fcard-desc">Advanced ML models analyze soil, climate, and historical data to predict crop yields with 95% accuracy.</p>
+                <div class="fcard-tags">
+                    <span class="ftag ftag-green">Machine Learning</span>
+                    <span class="ftag ftag-teal">Data Analytics</span>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 text-center p-4 border-0">
-                <div class="feature-icon">
-                    <i class="fas fa-map-marked-alt"></i>
-                </div>
-                <h4 class="mb-3">{% trans "Odisha-Specific Data" %}</h4>
-                <p class="text-muted">{% trans "Tailored recommendations based on local climate patterns, soil conditions, and agricultural practices across all 30 districts of Odisha." %}</p>
-                <div class="mt-auto">
-                    <span class="badge bg-warning">{% trans "Local Expertise" %}</span>
-                    <span class="badge bg-primary">{% trans "Regional Data" %}</span>
+            <div class="fcard fcard-blue">
+                <div class="fcard-icon-wrap">🗺️</div>
+                <div class="fcard-title">Odisha-Specific Data</div>
+                <p class="fcard-desc">Tailored recommendations based on local climate patterns and soil conditions across all 30 districts.</p>
+                <div class="fcard-tags">
+                    <span class="ftag ftag-blue">Local Expertise</span>
+                    <span class="ftag ftag-teal">Regional Data</span>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
-            <div class="card h-100 text-center p-4 border-0">
-                <div class="feature-icon">
-                    <i class="fas fa-tasks"></i>
-                </div>
-                <h4 class="mb-3">{% trans "Actionable Insights" %}</h4>
-                <p class="text-muted">{% trans "Get prioritized, practical recommendations for irrigation scheduling, fertilizer application, and integrated pest management strategies." %}</p>
-                <div class="mt-auto">
-                    <span class="badge bg-success">{% trans "Practical" %}</span>
-                    <span class="badge bg-danger">{% trans "Priority-Based" %}</span>
+            <div class="fcard fcard-orange">
+                <div class="fcard-icon-wrap">⚡</div>
+                <div class="fcard-title">Actionable Insights</div>
+                <p class="fcard-desc">Get prioritized, practical recommendations for irrigation, fertilizer, and integrated pest management.</p>
+                <div class="fcard-tags">
+                    <span class="ftag ftag-orange">Practical</span>
+                    <span class="ftag ftag-red">Priority-Based</span>
                 </div>
             </div>
         </div>
     </div>
 
-    
-    <!-- Key Features Section -->
-    <div class="row mt-5 pt-5">
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100 border-0" style="background: linear-gradient(135deg, #e8f5e8, #f1f8e9);">
-                <div class="card-body p-4">
-                    <h3 class="mb-4"><i class="fas fa-star text-warning me-2"></i>{% trans "Key Features" %}</h3>
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-white rounded-3 shadow-sm">
-                                <i class="fas fa-chart-line text-success me-3 fs-4"></i>
-                                <span>{% trans "Yield prediction with confidence intervals" %}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-white rounded-3 shadow-sm">
-                                <i class="fas fa-map text-primary me-3 fs-4"></i>
-                                <span>{% trans "District-wise crop recommendations" %}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-white rounded-3 shadow-sm">
-                                <i class="fas fa-calendar-alt text-info me-3 fs-4"></i>
-                                <span>{% trans "Season-specific advisory (Kharif, Rabi, Zaid)" %}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-white rounded-3 shadow-sm">
-                                <i class="fas fa-tint text-primary me-3 fs-4"></i>
-                                <span>{% trans "Irrigation and fertilizer guidance" %}</span>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-white rounded-3 shadow-sm">
-                                <i class="fas fa-shield-alt text-danger me-3 fs-4"></i>
-                                <span>{% trans "Pest and disease management" %}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 mb-4">
-            <div class="card h-100 border-0" style="background: linear-gradient(135deg, #fff3e0, #fce4ec);">
-                <div class="card-body p-4">
-                    <h3 class="mb-4"><i class="fas fa-seedling text-success me-2"></i>{% trans "Supported Crops" %}</h3>
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-leaf text-success fs-2 mb-2"></i>
-                                <h6 class="mb-0">{% trans "Rice" %}</h6>
-                                <small class="text-muted">{% trans "Staple Crop" %}</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-seedling text-warning fs-2 mb-2"></i>
-                                <h6 class="mb-0">{% trans "Maize" %}</h6>
-                                <small class="text-muted">{% trans "Cereal" %}</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-wheat-awn text-orange fs-2 mb-2"></i>
-                                <h6 class="mb-0">{% trans "Wheat" %}</h6>
-                                <small class="text-muted">{% trans "Winter Crop" %}</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-circle text-brown fs-2 mb-2"></i>
-                                <h6 class="mb-0">{% trans "Groundnut" %}</h6>
-                                <small class="text-muted">{% trans "Oilseed" %}</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-leaf text-success fs-2 mb-2"></i>
-                                <h6 class="mb-0">{% trans "Mung" %}</h6>
-                                <small class="text-muted">{% trans "Pulse" %}</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-cotton-bureau text-white fs-2 mb-2" style="color: #f8f9fa !important;"></i>
-                                <h6 class="mb-0">{% trans "Cotton" %}</h6>
-                                <small class="text-muted">{% trans "Fiber" %}</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-candy-cane text-success fs-2 mb-2"></i>
-                                <h6 class="mb-0">{% trans "Sugarcane" %}</h6>
-                                <small class="text-muted">{% trans "Cash Crop" %}</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="text-center p-3 bg-white rounded-3 shadow-sm mb-3">
-                                <i class="fas fa-pepper-hot text-warning fs-2 mb-2"></i>
-                                <h6 class="mb-0">{% trans "Turmeric" %}</h6>
-                                <small class="text-muted">{% trans "Spice" %}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Crops grid -->
+    <div class="text-center mb-4">
+        <div class="sec-label">What We Support</div>
+        <h2 class="sec-title">Supported Crops</h2>
+        <p class="sec-sub">8 major crops across 3 growing seasons</p>
     </div>
-    
-    <!-- Call to Action -->
-    <div class="text-center mt-5 pt-5">
-        <div class="card border-0" style="background: linear-gradient(135deg, var(--secondary-green), var(--light-green)); color: white;">
-            <div class="card-body p-5">
-                <h3 class="mb-3">{% trans "Ready to Optimize Your Crop Yield?" %}</h3>
-                <p class="lead mb-4">{% trans "Join thousands of farmers who are already using AI to make smarter farming decisions" %}</p>
-                <a href="{% url 'farm_input' %}" class="btn btn-light btn-lg px-5 py-3">
-                    <i class="fas fa-rocket me-2"></i>{% trans "Start Your Advisory Now" %}
-                </a>
-            </div>
+    <style>
+    .crop-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:60px; }
+    @media(max-width:768px){ .crop-grid{ grid-template-columns:repeat(2,1fr); } }
+    .new-crop-card {
+        background:#fff; border-radius:20px; padding:28px 16px;
+        border:1px solid #e8f5e9; text-align:center;
+        transition:all 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+        cursor:default; position:relative; overflow:hidden;
+    }
+    .new-crop-card::after {
+        content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+        background:linear-gradient(90deg,#145214,#66bb6a); transform:scaleX(0); transition:transform 0.3s;
+    }
+    .new-crop-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(20,82,20,0.12); border-color:transparent; }
+    .new-crop-card:hover::after { transform:scaleX(1); }
+    .crop-big-emoji { font-size:2.8rem; margin-bottom:12px; display:block; }
+    .crop-name { font-size:0.95rem; font-weight:700; color:#0b3d0b; margin-bottom:4px; }
+    .crop-type { font-size:0.75rem; color:#9ca3af; font-weight:500; }
+    </style>
+    <div class="crop-grid">
+        <div class="new-crop-card"><span class="crop-big-emoji">🌾</span><div class="crop-name">Rice</div><div class="crop-type">Staple Crop</div></div>
+        <div class="new-crop-card"><span class="crop-big-emoji">🌽</span><div class="crop-name">Maize</div><div class="crop-type">Cereal</div></div>
+        <div class="new-crop-card"><span class="crop-big-emoji">🌿</span><div class="crop-name">Wheat</div><div class="crop-type">Winter Crop</div></div>
+        <div class="new-crop-card"><span class="crop-big-emoji">🥜</span><div class="crop-name">Groundnut</div><div class="crop-type">Oilseed</div></div>
+        <div class="new-crop-card"><span class="crop-big-emoji">🫘</span><div class="crop-name">Mung</div><div class="crop-type">Pulse</div></div>
+        <div class="new-crop-card"><span class="crop-big-emoji">🌱</span><div class="crop-name">Cotton</div><div class="crop-type">Fiber Crop</div></div>
+        <div class="new-crop-card"><span class="crop-big-emoji">🎋</span><div class="crop-name">Sugarcane</div><div class="crop-type">Cash Crop</div></div>
+        <div class="new-crop-card"><span class="crop-big-emoji">🟡</span><div class="crop-name">Turmeric</div><div class="crop-type">Spice</div></div>
+    </div>
+
+    <!-- CTA banner -->
+    <style>
+    .new-cta {
+        background: linear-gradient(135deg, #052e05 0%, #145214 60%, #1b5e20 100%);
+        border-radius: 28px; padding: 70px 50px;
+        position: relative; overflow: hidden; text-align: center; margin-bottom: 70px;
+    }
+    .new-cta::before {
+        content:'';
+        position:absolute; inset:0;
+        background-image: url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1200&q=80&auto=format&fit=crop');
+        background-size:cover; background-position:center; opacity:0.07;
+    }
+    .new-cta-label { display:inline-block; background:rgba(255,255,255,0.12); color:#a5d6a7; font-size:0.72rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:6px 16px; border-radius:50px; margin-bottom:18px; }
+    .new-cta h3 { font-size:clamp(1.7rem,3.5vw,2.5rem); font-weight:800; color:#fff; letter-spacing:-0.5px; margin-bottom:12px; }
+    .new-cta p { color:rgba(255,255,255,0.65); font-size:1rem; margin-bottom:30px; max-width:480px; margin-left:auto; margin-right:auto; line-height:1.7; }
+    @media(max-width:576px){ .new-cta{ padding:50px 24px; } }
+    </style>
+    <div class="new-cta">
+        <div style="position:relative;z-index:2;">
+            <div class="new-cta-label">🚀 Get Started</div>
+            <h3>Ready to Optimize Your Crop Yield?</h3>
+            <p>Join thousands of farmers using AI to make smarter, data-driven farming decisions every season.</p>
+            <a href="{% url 'farm_input' %}" class="hcta-primary" style="font-size:1rem;padding:16px 40px;">
+                <i class="fas fa-rocket"></i> Start Your Advisory Now
+            </a>
         </div>
     </div>
 
-    <!-- Contact Form Section -->
-    <div class="mt-5 pt-5" id="contact">
+    <!-- Contact Form -->
+    <style>
+    .contact-wrap {
+        background: #fff; border-radius: 28px;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+        overflow: hidden; border: 1px solid #e8f5e9;
+    }
+    .contact-header {
+        background: linear-gradient(135deg, #052e05, #145214);
+        padding: 36px 40px; text-align: center;
+    }
+    .contact-header h4 { color:#fff; font-size:1.5rem; font-weight:800; margin-bottom:6px; }
+    .contact-header p  { color:rgba(255,255,255,0.6); font-size:0.88rem; margin:0; }
+    .contact-body { padding: 40px 48px; }
+    @media(max-width:576px){ .contact-body{ padding:28px 20px; } }
+    .new-label { font-size:0.82rem; font-weight:700; color:#0b3d0b; margin-bottom:6px; letter-spacing:0.3px; }
+    .new-input {
+        width:100%; border:1.5px solid #e5e7eb; border-radius:12px;
+        padding:12px 16px; font-size:0.93rem; color:#111;
+        transition:all 0.25s; outline:none; font-family:inherit;
+        background:#fafafa;
+    }
+    .new-input:focus { border-color:#145214; background:#fff; box-shadow:0 0 0 3px rgba(20,82,20,0.08); }
+    .new-input::placeholder { color:#9ca3af; }
+    .contact-submit {
+        display:inline-flex; align-items:center; gap:10px;
+        background:linear-gradient(135deg,#145214,#2e7d32);
+        color:#fff; font-weight:700; font-size:0.97rem;
+        padding:14px 44px; border-radius:50px; border:none;
+        box-shadow:0 6px 20px rgba(20,82,20,0.35);
+        cursor:pointer; transition:all 0.3s; font-family:inherit;
+    }
+    .contact-submit:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(20,82,20,0.45); }
+    </style>
+    <div id="contact">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card shadow-lg border-0">
-                    <div class="card-header text-center" style="background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: white;">
-                        <h3 class="mb-0"><i class="fas fa-envelope me-2"></i>{% trans "Contact Us" %}</h3>
+                <div class="contact-wrap">
+                    <div class="contact-header">
+                        <h4>📩 Contact Us</h4>
+                        <p>Have questions? We’d love to hear from you!</p>
                     </div>
-                    <div class="card-body p-5">
-                        <p class="text-center text-muted mb-4">{% trans "Have questions about our AI advisory platform? We'd love to hear from you!" %}</p>
-
+                    <div class="contact-body">
                         <form method="post" action="{% url 'contact' %}">
                             {% csrf_token %}
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="{{ contact_form.name.id_for_label }}" class="form-label">{% trans "Full Name" %}</label>
-                                    {{ contact_form.name }}
-                                    {% if contact_form.name.errors %}
-                                        <div class="text-danger small">{{ contact_form.name.errors }}</div>
-                                    {% endif %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="new-label">Full Name</label>
+                                    <input type="text" name="name" class="new-input" placeholder="Your full name" required>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="{{ contact_form.email.id_for_label }}" class="form-label">{% trans "Email Address" %}</label>
-                                    {{ contact_form.email }}
-                                    {% if contact_form.email.errors %}
-                                        <div class="text-danger small">{{ contact_form.email.errors }}</div>
-                                    {% endif %}
+                                <div class="col-md-6">
+                                    <label class="new-label">Email Address</label>
+                                    <input type="email" name="email" class="new-input" placeholder="your@email.com" required>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="{{ contact_form.subject.id_for_label }}" class="form-label">{% trans "Subject" %}</label>
-                                {{ contact_form.subject }}
-                                {% if contact_form.subject.errors %}
-                                    <div class="text-danger small">{{ contact_form.subject.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="mb-4">
-                                <label for="{{ contact_form.message.id_for_label }}" class="form-label">{% trans "Message" %}</label>
-                                {{ contact_form.message }}
-                                {% if contact_form.message.errors %}
-                                    <div class="text-danger small">{{ contact_form.message.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-success btn-lg px-5">
-                                    <i class="fas fa-paper-plane me-2"></i>{% trans "Send Message" %}
-                                </button>
+                                <div class="col-12">
+                                    <label class="new-label">Subject</label>
+                                    <input type="text" name="subject" class="new-input" placeholder="Subject of your message" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="new-label">Message</label>
+                                    <textarea name="message" class="new-input" rows="4" placeholder="Tell us how we can help..." required style="resize:vertical;"></textarea>
+                                </div>
+                                <div class="col-12 text-center pt-2">
+                                    <button type="submit" class="contact-submit">
+                                        <i class="fas fa-paper-plane"></i> Send Message
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -319,297 +479,78 @@
         </div>
     </div>
 </div>
+</div>
 {% endblock %}
 
+{% block extra_js %}
 <script>
-console.log('Chatbot script loaded successfully');
-
-// Add CSRF token to AJAX requests
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+        document.cookie.split(';').forEach(function(cookie) {
+            cookie = cookie.trim();
+            if (cookie.startsWith(name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
             }
-        }
+        });
     }
     return cookieValue;
 }
 
-const csrftoken = getCookie('csrftoken');
-console.log('Initial CSRF token:', csrftoken);
-
-// Override fetch to include CSRF token in headers
-const originalFetch = window.fetch;
-window.fetch = function(input, init) {
-    init = init || {};
-    init.headers = init.headers || {};
-    if (!init.headers['X-CSRFToken']) {
-        init.headers['X-CSRFToken'] = csrftoken;
-    }
-    return originalFetch(input, init);
-};
-
-// Add smooth reveal animations
-document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.card');
-    
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, index * 100);
-            }
-        });
-    }, observerOptions);
-    
-    cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(30px)';
-        card.style.transition = 'all 0.6s ease';
-        observer.observe(card);
-    });
-});
-
-// AI Query functionality
-
-// Test button functionality
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, checking chatbot elements...');
-
-    const sendButton = document.getElementById('sendButton');
-    const chatInput = document.getElementById('chatInput');
-    const chatbotModal = document.getElementById('chatbotModal');
-
-    console.log('Send button:', sendButton);
-    console.log('Chat input:', chatInput);
-    console.log('Chatbot modal:', chatbotModal);
-
-    if (sendButton) {
-        console.log('Send button found, adding click listener');
-        sendButton.addEventListener('click', function() {
-            console.log('Send button clicked via event listener');
-            sendMessage();
-        });
-
-        // Also test direct onclick
-        sendButton.onclick = function() {
-            console.log('Send button clicked via onclick');
-            sendMessage();
-        };
-    } else {
-        console.log('Send button not found');
-    }
-
-    // Test if sendMessage function exists
-    if (typeof sendMessage === 'function') {
-        console.log('sendMessage function exists');
-    } else {
-        console.log('sendMessage function does not exist');
-    }
-});
-
 function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-        sendMessage();
-    }
+    if (event.key === 'Enter') sendMessage();
 }
 
 function sendMessage() {
-    console.log('sendMessage function called');
     const input = document.getElementById('chatInput');
     const message = input.value.trim();
+    if (!message) return;
 
-    console.log('Message to send:', message);
-
-    if (!message) {
-        console.log('Message is empty, returning');
-        return;
-    }
-
-    // Add user message
     addMessage(message, 'user');
     input.value = '';
-
-    // Show typing indicator
     showTypingIndicator();
-
-    // Send message to server
-    console.log('Sending message:', message);
-    console.log('CSRF token:', csrftoken);
-    console.log('CSRF token length:', csrftoken ? csrftoken.length : 'null');
-
-    if (!csrftoken) {
-        console.error('CSRF token not found!');
-        hideTypingIndicator();
-        addMessage('Error: CSRF token not found. Please refresh the page.', 'bot');
-        return;
-    }
 
     fetch('/chatbot/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'X-CSRFToken': csrftoken
+            'X-CSRFToken': getCookie('csrftoken')
         },
         body: 'message=' + encodeURIComponent(message)
     })
-    .then(response => {
-        console.log('Response status:', response.status);
-        console.log('Response headers:', response.headers);
-        return response.json();
-    })
+    .then(r => r.json())
     .then(data => {
-        console.log('Response data:', data);
         hideTypingIndicator();
-        if (data.status === 'success') {
-            addMessage(data.response, 'bot');
-        } else {
-            addMessage(data.error || 'Sorry, I encountered an error. Please try again.', 'bot');
-        }
+        addMessage(data.status === 'success' ? data.response : (data.error || 'Sorry, please try again.'), 'bot');
     })
-    .catch(error => {
-        console.error('Fetch error:', error);
+    .catch(() => {
         hideTypingIndicator();
-        addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+        addMessage('Connection error. Please try again.', 'bot');
     });
 }
 
 function addMessage(message, sender) {
-    const messagesContainer = document.getElementById('chatMessages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = sender === 'user' ? 'user-message' : 'bot-message';
-
-    messageDiv.innerHTML = `
-        <div class="message-content">
-            <p class="mb-0">${message}</p>
-        </div>
-    `;
-
-    messagesContainer.appendChild(messageDiv);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    const container = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.className = sender === 'user' ? 'user-message' : 'bot-message';
+    div.innerHTML = '<div class="message-content">' + message.replace(/\n/g, '<br>') + '</div>';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
 }
 
 function showTypingIndicator() {
-    const messagesContainer = document.getElementById('chatMessages');
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'bot-message typing-indicator';
-    typingDiv.id = 'typingIndicator';
-
-    typingDiv.innerHTML = `
-        <div class="message-content">
-            <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    `;
-
-    messagesContainer.appendChild(typingDiv);
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    const container = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.className = 'bot-message';
+    div.id = 'typingIndicator';
+    div.innerHTML = '<div class="message-content"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
 }
 
 function hideTypingIndicator() {
-    const typingIndicator = document.getElementById('typingIndicator');
-    if (typingIndicator) {
-        typingIndicator.remove();
-    }
-}
-
-/* AI Query Styles */
-.chat-messages {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 10px;
-}
-
-.message-content {
-    background: white;
-    padding: 10px 15px;
-    border-radius: 15px;
-    margin-bottom: 10px;
-    max-width: 80%;
-    word-wrap: break-word;
-}
-
-.bot-message .message-content {
-    background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
-    color: white;
-    margin-right: auto;
-}
-
-.user-message {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 10px;
-}
-
-.user-message .message-content {
-    background: var(--secondary-green);
-    color: white;
-    margin-left: auto;
-    margin-right: 0;
-}
-
-.typing-indicator .message-content {
-    background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
-    padding: 15px;
-}
-
-.typing-dots {
-    display: flex;
-    gap: 4px;
-}
-
-.typing-dots span {
-    width: 8px;
-    height: 8px;
-    background: white;
-    border-radius: 50%;
-    animation: typing 1.4s infinite;
-}
-
-.typing-dots span:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.typing-dots span:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-@keyframes typing {
-    0%, 60%, 100% {
-        transform: translateY(0);
-    }
-    30% {
-        transform: translateY(-10px);
-    }
-}
-
-@media (max-width: 768px) {
-    .chat-messages {
-        max-height: 300px;
-    }
-
-    #ai-query .card-body {
-        padding: 20px;
-    }
-
-    #chatInput {
-        font-size: 16px; /* Prevent zoom on iOS */
-    }
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
 }
 </script>
+{% endblock %}

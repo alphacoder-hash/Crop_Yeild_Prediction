@@ -1,428 +1,640 @@
 <!DOCTYPE html>
 {% load i18n %}
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Agricultural Advisory Platform - Odisha{% endblock %}</title>
+    <title>{% block title %}Krishi Salahkar - AI Agricultural Advisory{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-green: #0b3d0b;   /* darker green */
-            --secondary-green: #145214; /* slightly lighter, but still dark */
+            --primary-green: #0b3d0b;
+            --secondary-green: #145214;
             --accent-orange: #ff6b35;
             --light-green: #66bb6a;
             --cream: #faf0e6;
             --gold: #ffd700;
-            --shadow: rgba(12, 226, 48, 0.67);
         }
-        
+
         * { box-sizing: border-box; }
-        
-        body { 
-            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 50%, #dcedc8 100%); 
+
+        body {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 50%, #dcedc8 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
+            padding-top: 70px;
         }
-        
-        .navbar-brand { 
-            font-weight: 700; 
-            font-size: 1.8rem; 
-            text-shadow: 2px 2px 4px rgba(126, 220, 18, 0.3);
+
+        /* ── NAVBAR ── */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)) !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+            padding: 0.6rem 0;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1050;
         }
-        .navbar { 
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)) !important; 
-            box-shadow: 5px 10px 20px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #fff !important;
+            letter-spacing: 0.5px;
         }
-        
-        .hero-section { 
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 50%, var(--light-green) 100%); 
-            color: white; 
-            padding: 120px 0; 
-            position: relative; 
+        .navbar-brand i { color: #a5d6a7; }
+
+        .nav-link {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem !important;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #fff !important;
+            background: rgba(255,255,255,0.15);
+        }
+
+        /* Auth buttons in navbar */
+        .nav-btn-login {
+            color: #fff !important;
+            border: 1.5px solid rgba(255,255,255,0.6);
+            border-radius: 20px !important;
+            padding: 0.35rem 1rem !important;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+        }
+        .nav-btn-login:hover {
+            background: rgba(255,255,255,0.2) !important;
+            border-color: #fff !important;
+        }
+        .nav-btn-signup {
+            background: var(--accent-orange) !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 20px !important;
+            padding: 0.35rem 1.1rem !important;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .nav-btn-signup:hover {
+            background: #e55a2b !important;
+            transform: translateY(-1px);
+        }
+
+        /* Dropdown fix — must be above hero */
+        .navbar .dropdown-menu {
+            z-index: 1100 !important;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+            min-width: 180px;
+            margin-top: 8px;
             overflow: hidden;
-            min-height: 70vh;
+        }
+        .navbar .dropdown-item {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            transition: background 0.15s;
+        }
+        .navbar .dropdown-item:hover { background: #f1f8e9; color: var(--secondary-green); }
+        .navbar .dropdown-item.text-danger:hover { background: #fff5f5; }
+
+        /* User badge in navbar */
+        .user-badge {
+            background: rgba(255,255,255,0.15);
+            border: 1.5px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            padding: 0.3rem 0.9rem;
+            color: #fff !important;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+        .user-badge:hover {
+            background: rgba(255,255,255,0.25) !important;
+        }
+
+        /* Language select in navbar */
+        .lang-select {
+            background: rgba(255,255,255,0.12);
+            border: 1.5px solid rgba(255,255,255,0.35);
+            color: #fff;
+            border-radius: 20px;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.82rem;
+            cursor: pointer;
+            outline: none;
+        }
+        .lang-select option { background: var(--secondary-green); color: #fff; }
+
+        /* ── HERO ── */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 60%, #1b5e20 100%);
+            color: white;
+            padding: 100px 0 80px;
+            position: relative;
+            overflow: hidden;
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
         }
         .hero-section::before {
-            content: ''; 
-            position: absolute; 
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="40" cy="80" r="1.5" fill="%23ffffff" opacity="0.1"/><path d="M10,50 Q50,10 90,50 Q50,90 10,50" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></svg>') repeat;
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(102,187,106,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(255,215,0,0.08) 0%, transparent 50%);
         }
         .hero-section::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(to top, rgba(255,255,255,0.1), transparent);
+            bottom: -2px; left: 0; right: 0;
+            height: 80px;
+            background: linear-gradient(to top, #f1f8e9, transparent);
         }
-        
-        .card { 
-            box-shadow: 0 10px 30px var(--shadow); 
-            border: none; 
-            border-radius: 20px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden;
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
             backdrop-filter: blur(10px);
         }
-        .card:hover { 
-            transform: translateY(-8px) scale(1.02); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.2);
         }
-        
-        .btn { 
-            border-radius: 30px; 
-            padding: 12px 30px;
+        .hero-title span { color: #a5d6a7; }
+        .hero-subtitle {
+            font-size: 1.15rem;
+            opacity: 0.88;
+            max-width: 560px;
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+        .hero-btn-primary {
+            background: linear-gradient(135deg, var(--accent-orange), #ff8a50);
+            border: none;
+            border-radius: 30px;
+            padding: 14px 36px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(255,107,53,0.45);
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,107,53,0.6);
+            color: #fff;
+        }
+        .hero-btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.6);
+            border-radius: 30px;
+            padding: 13px 30px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
+            font-size: 0.95rem;
+            color: #fff;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hero-btn-outline:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: #fff;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .hero-stat-card {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .hero-stat-card:hover { transform: translateY(-4px); }
+        .hero-stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #a5d6a7;
+            line-height: 1;
+        }
+        .hero-stat-label { font-size: 0.82rem; opacity: 0.8; margin-top: 4px; }
+
+        /* Floating crop icons */
+        .hero-float {
+            position: absolute;
+            opacity: 0.06;
+            font-size: 8rem;
+            animation: floatAnim 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .hero-float:nth-child(1) { top: 10%; right: 5%; animation-delay: 0s; }
+        .hero-float:nth-child(2) { bottom: 20%; right: 15%; animation-delay: 3s; font-size: 5rem; }
+        .hero-float:nth-child(3) { top: 40%; right: 30%; animation-delay: 1.5s; font-size: 4rem; }
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(10deg); }
+        }
+
+        /* ── CARDS ── */
+        .card {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: none;
+            border-radius: 20px;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             overflow: hidden;
         }
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.14);
         }
-        .btn:hover::before { left: 100%; }
-        
-        .btn-primary { 
-            background: linear-gradient(135deg, var(--accent-orange), #ff8a50); 
+        .card-header {
+            border-radius: 20px 20px 0 0 !important;
+        }
+
+        /* ── BUTTONS ── */
+        .btn {
+            border-radius: 30px;
+            padding: 10px 28px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-success {
+            background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
             border: none;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 4px 15px rgba(46,125,50,0.35);
         }
-        .btn-primary:hover { 
-            background: linear-gradient(135deg, #e55a2b, var(--accent-orange)); 
-            transform: translateY(-3px); 
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6);
+        .btn-success:hover {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46,125,50,0.5);
         }
-        
-        .btn-success { 
-            background: linear-gradient(135deg, var(--secondary-green), var(--light-green)); 
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-orange), #ff8a50);
             border: none;
-            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.4);
+            box-shadow: 0 4px 15px rgba(255,107,53,0.35);
         }
-        .btn-success:hover { 
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); 
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.6);
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #e55a2b, var(--accent-orange));
+            transform: translateY(-2px);
         }
-        
-        .feature-icon { 
-            font-size: 4.5rem; 
+
+        /* ── FORMS ── */
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 10px 16px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-green);
+            box-shadow: 0 0 0 0.25rem rgba(20,82,20,0.15);
+        }
+        .form-label { font-weight: 600; color: var(--primary-green); margin-bottom: 6px; }
+
+        /* ── MISC ── */
+        .glass-effect {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.18);
+        }
+        .metric-value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #a5d6a7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .metric-label { color: rgba(255,255,255,0.8); font-size: 0.9rem; }
+        .feature-icon {
+            font-size: 3.5rem;
             background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+            margin-bottom: 1rem;
         }
-        
-        .yield-prediction { 
-            background: linear-gradient(135deg, var(--secondary-green), var(--light-green), var(--gold)); 
-            color: white; 
-            border-radius: 25px;
-            position: relative;
-            overflow: hidden;
+        .yield-prediction {
+            background: linear-gradient(135deg, var(--secondary-green), var(--light-green), var(--gold));
+            color: white; border-radius: 20px;
         }
-        .yield-prediction::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: shimmer 3s ease-in-out infinite;
-        }
-        
-        @keyframes shimmer {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(180deg); }
-        }
-        
-        .recommendation-card { 
-            background: linear-gradient(135deg, var(--cream), #ffffff, #f8f9fa); 
-            border-radius: 20px;
-            position: relative;
-        }
-        
-        .action-item { 
-            background: linear-gradient(135deg, #fff, #f8f9fa); 
-            border-left: 6px solid var(--accent-orange); 
-            border-radius: 15px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .action-item::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 4px; height: 100%;
-            background: linear-gradient(to bottom, var(--accent-orange), var(--secondary-green));
-            transition: width 0.3s ease;
-        }
-        .action-item:hover { 
-            border-left-color: var(--secondary-green); 
-            transform: translateX(10px) scale(1.02); 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        .action-item:hover::before { width: 8px; }
-        
-        .form-control, .form-select { 
-            border-radius: 15px; 
-            border: 2px solid #e9ecef; 
-            padding: 12px 20px;
+        .action-item {
+            background: #fff;
+            border-left: 5px solid var(--accent-orange);
+            border-radius: 12px;
             transition: all 0.3s ease;
-            background: rgba(255,255,255,0.9);
         }
-        .form-control:focus, .form-select:focus { 
-            border-color: var(--secondary-green); 
-            box-shadow: 0 0 0 0.3rem rgba(46, 125, 50, 0.25);
-            transform: translateY(-2px);
+        .action-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
         }
-        
-        .form-label {
-            font-weight: 600;
-            color: var(--primary-green);
-            margin-bottom: 8px;
-        }
-        
-        .progress-bar { 
-            background: linear-gradient(90deg, var(--secondary-green), var(--light-green)); 
-            border-radius: 10px;
-        }
-        
-        .badge { 
-            border-radius: 20px; 
-            padding: 8px 16px;
-            font-weight: 600;
-        }
-        
-        .language-toggle {
-            position: fixed;
-            top: 90px;
-            right: 20px;
-            z-index: 9999;
-            backdrop-filter: blur(10px);
-            border-radius: 25px;
-            overflow: hidden;
-            display: block !important;
-            visibility: visible !important;
-        }
-        
+        .recommendation-card { background: linear-gradient(135deg, var(--cream), #fff); border-radius: 20px; }
+        .badge { border-radius: 20px; padding: 6px 14px; font-weight: 600; }
+        .floating-elements { position: absolute; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(50px); }
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        .slide-in-left { animation: slideInLeft 0.8s ease-out; }
-        
+        .fade-in-up { animation: fadeInUp 0.8s ease both; }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
         .pulse { animation: pulse 2s ease-in-out infinite; }
-        
-        .metric-card { 
-            background: linear-gradient(135deg, #fff, #f8f9fa, var(--cream)); 
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        .metric-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 4px;
-            background: linear-gradient(90deg, var(--secondary-green), var(--light-green), var(--gold));
-        }
-        
-        .metric-value { 
-            font-size: 3rem; 
-            font-weight: 800; 
-            background: linear-gradient(135deg, var(--secondary-green), var(--light-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .metric-label { 
-            color: #6c757d; 
-            font-size: 0.95rem; 
-            font-weight: 500;
-        }
-        
-        .card-header {
-            border-radius: 20px 20px 0 0 !important;
-            position: relative;
-            overflow: hidden;
-        }
-        .card-header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-        .card:hover .card-header::before { left: 100%; }
-        
-        .floating-elements {
-            position: absolute;
-            width: 100%; height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .floating-elements::before,
-        .floating-elements::after {
-            content: '';
-            position: absolute;
-            width: 20px; height: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-        .floating-elements::before {
-            top: 20%; left: 10%;
-            animation-delay: 0s;
-        }
-        .floating-elements::after {
-            top: 60%; right: 15%;
-            animation-delay: 3s;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-        
+
         @media (max-width: 768px) {
-            .hero-section { padding: 80px 0; }
-            .feature-icon { font-size: 3rem; }
-            .metric-value { font-size: 2rem; }
-            .language-toggle { top: 70px; right: 10px; }
+            .hero-section { padding: 60px 0 50px; min-height: auto; }
+            .hero-title { font-size: 1.8rem; }
+            .hero-subtitle { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container">
-                <a class="navbar-brand" href="{% url 'home' %}">
-                    <i class="fas fa-seedling me-2"></i>{% trans "Krishi Salahkar" %}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'home' %}">{% trans "Home" %}</a>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <i class="fas fa-seedling me-2"></i>{% trans "Krishi Salahkar" %}
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto gap-1">
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                        <i class="fas fa-home me-1"></i>{% trans "Home" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'farm_input' %}active{% endif %}" href="{% url 'farm_input' %}">
+                        <i class="fas fa-chart-line me-1"></i>{% trans "Get Advisory" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'weather_forecast' %}active{% endif %}" href="{% url 'weather_forecast' %}">
+                        <i class="fas fa-cloud-sun me-1"></i>{% trans "Weather" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">
+                        <i class="fas fa-info-circle me-1"></i>{% trans "About" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">
+                        <i class="fas fa-envelope me-1"></i>{% trans "Contact" %}
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav align-items-center gap-2">
+                <!-- Language selector -->
+                <li class="nav-item">
+                    <form action="{% url 'set_language' %}" method="post" id="lang-form">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        <select name="language" class="lang-select" onchange="this.form.submit()">
+                            <option value="en" {% if request.LANGUAGE_CODE == 'en' or request.LANGUAGE_CODE == 'en-us' %}selected{% endif %}>🌐 EN</option>
+                            <option value="hi" {% if request.LANGUAGE_CODE == 'hi' %}selected{% endif %}>🇮🇳 हिन्दी</option>
+                            <option value="or" {% if request.LANGUAGE_CODE == 'or' %}selected{% endif %}>ଓ Odia</option>
+                        </select>
+                    </form>
+                </li>
+
+                {% if user.is_authenticated %}
+                <!-- User dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link user-badge dropdown-toggle" href="#" id="userDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle me-1"></i>{{ user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <div class="px-3 py-2 border-bottom">
+                                <div class="fw-bold text-dark">{{ user.username }}</div>
+                                <small class="text-muted">{{ user.email }}</small>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'farm_input' %}">{% trans "Get Advisory" %}</a>
+                        <li><a class="dropdown-item" href="{% url 'farm_input' %}"><i class="fas fa-chart-line me-2 text-success"></i>{% trans "Get Advisory" %}</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i>{% trans "Logout" %}
+                                </button>
+                            </form>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'about' %}">{% trans "About" %}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'contact' %}">{% trans "Contact" %}</a>
-                        </li>
-                        {% if user.is_authenticated %}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user me-1"></i>{{ user.username }}
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="#profile">{% trans "Profile" %}</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <form method="post" action="{% url 'logout' %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="dropdown-item">{% trans "Logout" %}</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        {% endif %}
                     </ul>
-                </div>
-            </div>
-        </nav>
-
-        {% if messages %}
-            <div class="container mt-3">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        {% block content %}
-        {% endblock %}
-
-        <!-- Language Dropdown -->
-        <div class="language-toggle">
-            <form id="language-form" action="{% url 'set_language' %}" method="post" class="d-flex align-items-center">
-                {% csrf_token %}
-                <select name="language" id="languageSelect" class="form-select form-select-sm" onchange="document.getElementById('language-form').submit();" style="width: auto; border-radius: 25px; background: rgba(255,255,255,0.3); color: white; border: none;">
-                    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
-                    <option value="or" {% if LANGUAGE_CODE == 'or' %}selected{% endif %}>ଓଡ଼ିଆ</option>
-                    <option value="hi" {% if LANGUAGE_CODE == 'hi' %}selected{% endif %}>हिन्दी</option>
-                    <!-- Add more languages here -->
-                </select>
-                <input name="next" type="hidden" value="{{ redirect_to }}" />
-            </form>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link nav-btn-login" href="{% url 'login' %}">
+                        <i class="fas fa-sign-in-alt me-1"></i>{% trans "Login" %}
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-btn-signup" href="{% url 'signup' %}">
+                        <i class="fas fa-user-plus me-1"></i>{% trans "Sign Up" %}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <footer class="mt-5" style="background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: white; position: relative; overflow: hidden;">
-            <div class="floating-elements"></div>
-            <div class="container py-5">
-                <div class="row text-center">
-                    <div class="col-md-4 mb-4">
-                        <div class="glass-effect p-4 rounded-3 h-100">
-                            <h5><i class="fas fa-seedling me-2 text-warning"></i>{% trans "Krishi Salahkar" %}</h5>
-                            <p class="small mb-0">{% trans "AI-powered agricultural advisory for Odisha farmers" %}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="glass-effect p-4 rounded-3 h-100">
-                            <h5><i class="fas fa-chart-bar me-2 text-warning"></i>{% trans "Coverage" %}</h5>
-                            <p class="small mb-0">{% trans "30 Districts • 8 Crops • 3 Seasons" %}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="glass-effect p-4 rounded-3 h-100">
-                            <h5><i class="fas fa-headset me-2 text-warning"></i>{% trans "Support" %}</h5>
-                            <p class="small mb-0">{% trans "24/7 AI Advisory • Mobile Optimized" %}</p>
-                        </div>
-                    </div>
-                </div>
-                <hr class="my-4" style="border-color: rgba(255,255,255,0.3);">
-                <div class="text-center">
-                    <p class="mb-2">{% trans "&copy; 2024 Agricultural Advisory Platform - Odisha" %}</p>
-                    <p class="small mb-0">{% trans "Empowering farmers with AI-driven insights • Built with ❤️ for sustainable agriculture" %}</p>
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<!-- ── FOOTER ── -->
+<footer class="mt-5" style="background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: white;">
+    <div class="container py-5">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="glass-effect p-4 rounded-3 h-100">
+                    <h5><i class="fas fa-seedling me-2 text-warning"></i>{% trans "Krishi Salahkar" %}</h5>
+                    <p class="small mb-0 opacity-75">{% trans "AI-powered agricultural advisory for Odisha farmers" %}</p>
                 </div>
             </div>
-        </footer>
+            <div class="col-md-4">
+                <div class="glass-effect p-4 rounded-3 h-100">
+                    <h5><i class="fas fa-chart-bar me-2 text-warning"></i>{% trans "Coverage" %}</h5>
+                    <p class="small mb-0 opacity-75">{% trans "30 Districts • 8 Crops • 3 Seasons" %}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="glass-effect p-4 rounded-3 h-100">
+                    <h5><i class="fas fa-headset me-2 text-warning"></i>{% trans "Support" %}</h5>
+                    <p class="small mb-0 opacity-75">{% trans "24/7 AI Advisory • Mobile Optimized" %}</p>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+        <div class="text-center opacity-75">
+            <p class="mb-1 small">© 2024 Krishi Salahkar - Agricultural Advisory Platform, Odisha</p>
+            <p class="small mb-0">Empowering farmers with AI-driven insights • Built with ❤️ for sustainable agriculture</p>
+        </div>
+    </div>
+</footer>
 
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/intro.min.js"></script>
+{% block extra_js %}{% endblock %}
+
+<script>
+// ── GLOBAL WALKTHROUGH ──
+const PAGE = '{{ request.resolver_match.url_name }}';
+const TOUR_KEY = 'ks_tour_' + PAGE;
+
+const TOURS = {
+  home: [
+    { element: '.navbar-brand', intro: '👋 Welcome to <strong>Krishi Salahkar</strong>! This is your AI-powered farming advisory platform for Odisha farmers.', position: 'bottom' },
+    { element: '[href*="farm_input"]', intro: '🌾 Click <strong>Get Advisory</strong> to get AI-powered crop yield predictions for your farm.', position: 'bottom' },
+    { element: '[href*="weather"]', intro: '🌤️ Check <strong>Weather</strong> to get live weather forecasts for your location.', position: 'bottom' },
+    { element: '#ai-query', intro: '🤖 Use the <strong>AI Chatbot</strong> to ask any farming question — crops, irrigation, pests and more!', position: 'top' },
+    { element: '.lang-select', intro: '🌐 Switch between <strong>English, Hindi (हिन्दी)</strong> and Odia using this language selector.', position: 'bottom' },
+  ],
+  farm_input: [
+    { element: '.split-left', intro: '📋 This page collects your <strong>farm details</strong> to generate an AI prediction. Fill in all fields for best results.', position: 'right' },
+    { element: '[name="district"]', intro: '📍 Select your <strong>district</strong> — we have data for all 30 districts of Odisha.', position: 'right' },
+    { element: '[name="crop"]', intro: '🌾 Choose your <strong>crop type</strong> — Rice, Wheat, Maize, Groundnut, Cotton, Sugarcane, Turmeric or Mung.', position: 'right' },
+    { element: '[name="season"]', intro: '📅 Select the <strong>growing season</strong> — Kharif (monsoon), Rabi (winter) or Zaid (summer).', position: 'right' },
+    { element: '[name="irrigation"]', intro: '💧 Choose your <strong>irrigation type</strong> — this significantly affects yield prediction.', position: 'right' },
+    { element: '[name="soil_type"]', intro: '🌍 Select your <strong>soil type</strong> — Alluvial, Lateritic, Red & Black, or Saline.', position: 'right' },
+    { element: '#submitBtn', intro: '🚀 Click <strong>Get AI Recommendation</strong> to get your yield prediction and personalized action plan!', position: 'top' },
+  ],
+  weather_forecast: [
+    { element: '#geoBtn', intro: '📍 Click <strong>Use My Location</strong> to automatically detect your location and show live weather.', position: 'right' },
+    { element: '#weatherForm', intro: '🔍 Or <strong>search any city</strong> by typing its name here.', position: 'right' },
+    { element: '.sl-chip', intro: '⚡ Use these <strong>quick city buttons</strong> to instantly check weather for major Odisha cities.', position: 'right' },
+  ],
+  contact: [
+    { element: '.split-left', intro: '📞 Here you can find our <strong>contact information</strong> — location, email and response time.', position: 'right' },
+    { element: '.split-right form', intro: '✉️ Fill in this <strong>contact form</strong> to send us a message. We respond within 24 hours!', position: 'left' },
+  ],
+  about: [
+    { element: '.split-left', intro: '🌱 Learn about <strong>Krishi Salahkar\'s mission</strong> — empowering Odisha farmers with AI.', position: 'right' },
+    { element: '.split-right', intro: '⭐ Explore our <strong>key features</strong> — yield prediction, personalized advice, nearby shops and more.', position: 'left' },
+  ],
+  login: [
+    { element: '.auth-form-wrap', intro: '🔐 <strong>Sign in</strong> with your username and password to access all features.', position: 'left' },
+    { element: '.auth-link', intro: '✨ New here? Click <strong>Create one free</strong> to register — it\'s completely free!', position: 'top' },
+  ],
+  signup: [
+    { element: '.auth-form-wrap', intro: '📝 <strong>Create your free account</strong> to get AI crop advisory, weather forecasts and more.', position: 'left' },
+    { element: '[name="username"]', intro: '👤 Choose a <strong>username</strong> — this is how you\'ll log in.', position: 'left' },
+    { element: '[name="password1"]', intro: '🔒 Create a <strong>strong password</strong> with at least 8 characters.', position: 'left' },
+  ],
+};
+
+function startTour() {
+    const steps = TOURS[PAGE];
+    if (!steps) return;
+    const validSteps = steps.filter(s => !s.element || document.querySelector(s.element));
+    if (!validSteps.length) return;
+    introJs().setOptions({
+        steps: validSteps,
+        showProgress: true,
+        showBullets: true,
+        exitOnOverlayClick: false,
+        nextLabel: 'Next →',
+        prevLabel: '← Back',
+        doneLabel: '✓ Done',
+        tooltipClass: 'ks-tooltip',
+    }).oncomplete(function() {
+        localStorage.setItem(TOUR_KEY, '1');
+    }).onexit(function() {
+        localStorage.setItem(TOUR_KEY, '1');
+    }).start();
+}
+
+// Show tour automatically on first visit per page
+window.addEventListener('load', function() {
+    if (!localStorage.getItem(TOUR_KEY) && TOURS[PAGE]) {
+        setTimeout(startTour, 800);
+    }
+});
+</script>
+
+<style>
+/* Tour help button */
+.tour-fab {
+    position: fixed; bottom: 24px; right: 24px; z-index: 9998;
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, #145214, #66bb6a);
+    color: #fff; border: none; font-size: 1.3rem;
+    box-shadow: 0 6px 20px rgba(20,82,20,0.4);
+    cursor: pointer; transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center;
+}
+.tour-fab:hover { transform: scale(1.1); box-shadow: 0 10px 28px rgba(20,82,20,0.5); }
+
+/* Intro.js custom theme */
+.introjs-tooltip.ks-tooltip {
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2) !important;
+    font-family: 'Segoe UI', sans-serif !important;
+    max-width: 340px !important;
+}
+.introjs-tooltip.ks-tooltip .introjs-tooltiptext { font-size: 0.92rem; line-height: 1.6; color: #222; }
+.introjs-tooltip.ks-tooltip .introjs-button {
+    border-radius: 8px !important; font-weight: 600 !important;
+    font-size: 0.82rem !important; padding: 6px 14px !important;
+}
+.introjs-tooltip.ks-tooltip .introjs-nextbutton {
+    background: linear-gradient(135deg,#145214,#66bb6a) !important;
+    color: #fff !important; border: none !important;
+    text-shadow: none !important;
+}
+.introjs-tooltip.ks-tooltip .introjs-prevbutton { color: #145214 !important; border-color: #145214 !important; }
+.introjs-tooltip.ks-tooltip .introjs-donebutton {
+    background: linear-gradient(135deg,#145214,#66bb6a) !important;
+    color: #fff !important; border: none !important; text-shadow: none !important;
+}
+.introjs-helperLayer { border-radius: 12px !important; }
+.introjs-progressbar { background: linear-gradient(135deg,#145214,#66bb6a) !important; }
+</style>
+
+<!-- Floating tour help button -->
+<button class="tour-fab" onclick="startTour()" title="Take a tour">
+    <i class="fas fa-question"></i>
+</button>
+
+</body>
+</html>

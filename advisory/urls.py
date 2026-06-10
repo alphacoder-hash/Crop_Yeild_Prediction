@@ -1,6 +1,5 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from django.views.i18n import set_language
 from . import views
 
 urlpatterns = [
@@ -13,6 +12,5 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('contact/', views.contact, name='contact'),
     path('weather/', views.weather_forecast, name='weather_forecast'),
-    # path('chatbot/', views.chatbot, name='chatbot'),
-    path('i18n/setlang/', set_language, name='set_language'),
+    path('chatbot/', views.chatbot, name='chatbot'),
 ]

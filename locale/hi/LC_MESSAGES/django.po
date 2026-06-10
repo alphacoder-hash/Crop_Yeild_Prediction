@@ -1,392 +1,701 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Hindi translations for Krishi Salahkar
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: KrishiSalahkar 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 20:36+0530\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0530\n"
+"PO-Revision-Date: 2024-01-01 00:00+0530\n"
+"Last-Translator: Krishi Salahkar\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: .\templates\advisory\base.html:326 .\templates\advisory\base.html:401
+
+# Navbar
 msgid "Krishi Salahkar"
 msgstr "कृषि सलाहकार"
 
-#: .\templates\advisory\base.html:334
 msgid "Home"
 msgstr "होम"
 
-#: .\templates\advisory\base.html:337
 msgid "Get Advisory"
-msgstr "सलाह प्राप्त करें"
+msgstr "सलाह लें"
 
-#: .\templates\advisory\base.html:340
+msgid "Weather"
+msgstr "मौसम"
+
 msgid "About"
 msgstr "हमारे बारे में"
 
-#: .\templates\advisory\base.html:343
 msgid "Contact"
 msgstr "संपर्क"
 
-#: .\templates\advisory\base.html:351
-msgid "Profile"
-msgstr "प्रोफ़ाइल"
+msgid "Login"
+msgstr "लॉगिन"
 
-#: .\templates\advisory\base.html:356
+msgid "Sign Up"
+msgstr "साइन अप"
+
 msgid "Logout"
 msgstr "लॉग आउट"
 
-#: .\templates\advisory\base.html:402
+msgid "Profile"
+msgstr "प्रोफ़ाइल"
+
+# Footer
 msgid "AI-powered agricultural advisory for Odisha farmers"
-msgstr ""
+msgstr "ओडिशा के किसानों के लिए एआई-संचालित कृषि सलाह"
 
-#: .\templates\advisory\base.html:407
 msgid "Coverage"
-msgstr ""
+msgstr "कवरेज"
 
-#: .\templates\advisory\base.html:408
 msgid "30 Districts • 8 Crops • 3 Seasons"
-msgstr ""
+msgstr "30 जिले • 8 फसलें • 3 मौसम"
 
-#: .\templates\advisory\base.html:413
 msgid "Support"
-msgstr ""
+msgstr "सहायता"
 
-#: .\templates\advisory\base.html:414
 msgid "24/7 AI Advisory • Mobile Optimized"
-msgstr ""
+msgstr "24/7 एआई सलाह • मोबाइल अनुकूलित"
 
-#: .\templates\advisory\base.html:420
-msgid "&copy; 2024 Agricultural Advisory Platform - Odisha"
-msgstr ""
+# Home page
+msgid "AI-Powered Platform"
+msgstr "एआई-संचालित प्लेटफॉर्म"
 
-#: .\templates\advisory\base.html:421
-msgid ""
-"Empowering farmers with AI-driven insights • Built with ❤️ for sustainable "
-"agriculture"
-msgstr ""
+msgid "Smart Farming for"
+msgstr "स्मार्ट खेती"
 
-#: .\templates\advisory\farm_input.html:4
-msgid "Farm Input - Agricultural Advisory Platform"
-msgstr ""
+msgid "Odisha Farmers"
+msgstr "ओडिशा के किसानों के लिए"
 
-#: .\templates\advisory\farm_input.html:18
-msgid "Step 1: Farm Details"
-msgstr ""
+msgid "Get AI-driven crop yield predictions, personalized recommendations, and real-time weather insights tailored for all 30 districts of Odisha."
+msgstr "ओडिशा के सभी 30 जिलों के लिए एआई-संचालित फसल उपज पूर्वानुमान, व्यक्तिगत सिफारिशें और रियल-टाइम मौसम जानकारी प्राप्त करें।"
 
-#: .\templates\advisory\farm_input.html:24
-msgid "Step 2: Get Advisory"
-msgstr ""
+msgid "Get Crop Advisory"
+msgstr "फसल सलाह लें"
 
-#: .\templates\advisory\farm_input.html:39
-msgid "Farm Information Input"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:41
-msgid "Please provide your farm details to get personalized crop advisory"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:50
-msgid "Location & Crop Information"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:75
-msgid "Timing Information"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:100
-msgid "Field Details"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:125
-msgid "Soil & Seeds"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:150
-msgid "Additional Information"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:161
-msgid "Helps provide better nutrient recommendations"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:174
-msgid "Enables targeted pest management advice"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:185
-msgid "Back to Home"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:188
-msgid "Get AI Recommendation"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:202
-msgid "Tips for Better Recommendations"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:207
-msgid "Provide accurate field area"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:213
-msgid "Select correct soil type"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:219
-msgid "Choose appropriate season"
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:251
-msgid "Analyzing Your Farm Data..."
-msgstr ""
-
-#: .\templates\advisory\farm_input.html:259
-msgid "Processing..."
-msgstr ""
-
-#: .\templates\advisory\home.html:11
-msgid "AI-Driven Agricultural Advisory Platform"
-msgstr "एआई संचालित कृषि सलाहकार प्लेटफॉर्म"
-
-#: .\templates\advisory\home.html:13
-msgid ""
-"Empowering Odisha farmers with intelligent crop yield predictions and "
-"personalized recommendations"
-msgstr "बुद्धिमान फसल उपज पूर्वानुमान और व्यक्तिगत सिफारिशों के साथ ओडिशा के किसानों को सशक्त बनाना"
-
-#: .\templates\advisory\home.html:16
-msgid "Get Your Crop Advisory"
-msgstr "अपनी फसल की सलाह प्राप्त करें"
-
-#: .\templates\advisory\home.html:19
 msgid "Check Weather"
-msgstr "मौसम जांचें"
+msgstr "मौसम देखें"
 
-#: .\templates\advisory\home.html:22
-msgid "Connect"
-msgstr "जोड़ें"
+msgid "Ask AI"
+msgstr "एआई से पूछें"
 
-#: .\templates\advisory\home.html:25
-msgid "Learn More"
-msgstr "और जानें"
-
-#: .\templates\advisory\home.html:35
 msgid "Districts Covered"
-msgstr ""
+msgstr "जिले कवर"
 
-#: .\templates\advisory\home.html:41
 msgid "Major Crops"
-msgstr ""
+msgstr "प्रमुख फसलें"
 
-#: .\templates\advisory\home.html:47
 msgid "Accuracy Rate"
-msgstr ""
+msgstr "सटीकता दर"
 
-#: .\templates\advisory\home.html:56
+msgid "Crop Seasons"
+msgstr "फसल मौसम"
+
 msgid "Why Choose Krishi Salahkar?"
-msgstr ""
+msgstr "कृषि सलाहकार क्यों चुनें?"
 
-#: .\templates\advisory\home.html:57
 msgid "Advanced AI technology meets traditional farming wisdom"
-msgstr ""
+msgstr "उन्नत एआई तकनीक पारंपरिक कृषि ज्ञान से मिलती है"
 
-#: .\templates\advisory\home.html:66
 msgid "AI-Powered Predictions"
-msgstr ""
+msgstr "एआई-संचालित पूर्वानुमान"
 
-#: .\templates\advisory\home.html:67
-#, python-format
-msgid ""
-"Advanced machine learning models analyze multiple factors to predict crop "
-"yields with 95%% accuracy using historical data and real-time conditions."
-msgstr ""
-
-#: .\templates\advisory\home.html:69
-msgid "Machine Learning"
-msgstr ""
-
-#: .\templates\advisory\home.html:70
-msgid "Data Analytics"
-msgstr ""
-
-#: .\templates\advisory\home.html:79
 msgid "Odisha-Specific Data"
-msgstr ""
+msgstr "ओडिशा-विशिष्ट डेटा"
 
-#: .\templates\advisory\home.html:80
-msgid ""
-"Tailored recommendations based on local climate patterns, soil conditions, "
-"and agricultural practices across all 30 districts of Odisha."
-msgstr ""
-
-#: .\templates\advisory\home.html:82
-msgid "Local Expertise"
-msgstr ""
-
-#: .\templates\advisory\home.html:83
-msgid "Regional Data"
-msgstr ""
-
-#: .\templates\advisory\home.html:92
 msgid "Actionable Insights"
-msgstr ""
+msgstr "कार्रवाई योग्य जानकारी"
 
-#: .\templates\advisory\home.html:93
-msgid ""
-"Get prioritized, practical recommendations for irrigation scheduling, "
-"fertilizer application, and integrated pest management strategies."
-msgstr ""
+msgid "Machine Learning"
+msgstr "मशीन लर्निंग"
 
-#: .\templates\advisory\home.html:95
+msgid "Data Analytics"
+msgstr "डेटा विश्लेषण"
+
+msgid "Local Expertise"
+msgstr "स्थानीय विशेषज्ञता"
+
+msgid "Regional Data"
+msgstr "क्षेत्रीय डेटा"
+
 msgid "Practical"
-msgstr ""
+msgstr "व्यावहारिक"
 
-#: .\templates\advisory\home.html:96
 msgid "Priority-Based"
-msgstr ""
+msgstr "प्राथमिकता-आधारित"
 
-#: .\templates\advisory\home.html:108
-msgid "Key Features"
-msgstr ""
-
-#: .\templates\advisory\home.html:113
-msgid "Yield prediction with confidence intervals"
-msgstr ""
-
-#: .\templates\advisory\home.html:119
-msgid "District-wise crop recommendations"
-msgstr ""
-
-#: .\templates\advisory\home.html:125
-msgid "Season-specific advisory (Kharif, Rabi, Zaid)"
-msgstr ""
-
-#: .\templates\advisory\home.html:131
-msgid "Irrigation and fertilizer guidance"
-msgstr ""
-
-#: .\templates\advisory\home.html:137
-msgid "Pest and disease management"
-msgstr ""
-
-#: .\templates\advisory\home.html:147
 msgid "Supported Crops"
-msgstr ""
+msgstr "समर्थित फसलें"
 
-#: .\templates\advisory\home.html:152
+msgid "8 major crops across 3 seasons"
+msgstr "3 मौसमों में 8 प्रमुख फसलें"
+
 msgid "Rice"
-msgstr ""
+msgstr "चावल"
 
-#: .\templates\advisory\home.html:153
 msgid "Staple Crop"
-msgstr ""
+msgstr "मुख्य फसल"
 
-#: .\templates\advisory\home.html:159
 msgid "Maize"
-msgstr ""
+msgstr "मक्का"
 
-#: .\templates\advisory\home.html:160
 msgid "Cereal"
-msgstr ""
+msgstr "अनाज"
 
-#: .\templates\advisory\home.html:166
 msgid "Wheat"
-msgstr ""
+msgstr "गेहूं"
 
-#: .\templates\advisory\home.html:167
 msgid "Winter Crop"
-msgstr ""
+msgstr "रबी फसल"
 
-#: .\templates\advisory\home.html:173
 msgid "Groundnut"
-msgstr ""
+msgstr "मूंगफली"
 
-#: .\templates\advisory\home.html:174
 msgid "Oilseed"
-msgstr ""
+msgstr "तिलहन"
 
-#: .\templates\advisory\home.html:180
 msgid "Mung"
-msgstr ""
+msgstr "मूंग"
 
-#: .\templates\advisory\home.html:181
 msgid "Pulse"
-msgstr ""
+msgstr "दलहन"
 
-#: .\templates\advisory\home.html:187
 msgid "Cotton"
-msgstr ""
+msgstr "कपास"
 
-#: .\templates\advisory\home.html:188
 msgid "Fiber"
-msgstr ""
+msgstr "रेशा"
 
-#: .\templates\advisory\home.html:194
 msgid "Sugarcane"
-msgstr ""
+msgstr "गन्ना"
 
-#: .\templates\advisory\home.html:195
 msgid "Cash Crop"
-msgstr ""
+msgstr "नकदी फसल"
 
-#: .\templates\advisory\home.html:201
 msgid "Turmeric"
-msgstr ""
+msgstr "हल्दी"
 
-#: .\templates\advisory\home.html:202
 msgid "Spice"
-msgstr ""
+msgstr "मसाला"
 
-#: .\templates\advisory\home.html:215
 msgid "Ready to Optimize Your Crop Yield?"
-msgstr ""
+msgstr "अपनी फसल उपज बढ़ाने के लिए तैयार हैं?"
 
-#: .\templates\advisory\home.html:216
-msgid ""
-"Join thousands of farmers who are already using AI to make smarter farming "
-"decisions"
-msgstr ""
+msgid "Join thousands of farmers using AI to make smarter farming decisions"
+msgstr "हजारों किसानों से जुड़ें जो स्मार्ट खेती के लिए एआई का उपयोग कर रहे हैं"
 
-#: .\templates\advisory\home.html:218
 msgid "Start Your Advisory Now"
-msgstr ""
+msgstr "अभी सलाह शुरू करें"
 
-#: .\templates\advisory\home.html:230
 msgid "Contact Us"
-msgstr ""
+msgstr "हमसे संपर्क करें"
 
-#: .\templates\advisory\home.html:233
-msgid ""
-"Have questions about our AI advisory platform? We'd love to hear from you!"
-msgstr ""
+msgid "Have questions about our AI advisory platform? We'd love to hear from you!"
+msgstr "हमारे एआई सलाह प्लेटफॉर्म के बारे में प्रश्न हैं? हम आपसे सुनना चाहेंगे!"
 
-#: .\templates\advisory\home.html:239
 msgid "Full Name"
-msgstr ""
+msgstr "पूरा नाम"
 
-#: .\templates\advisory\home.html:246
 msgid "Email Address"
-msgstr ""
+msgstr "ईमेल पता"
 
-#: .\templates\advisory\home.html:254
 msgid "Subject"
-msgstr ""
+msgstr "विषय"
 
-#: .\templates\advisory\home.html:261
 msgid "Message"
-msgstr ""
+msgstr "संदेश"
 
-#: .\templates\advisory\home.html:269
 msgid "Send Message"
-msgstr ""
+msgstr "संदेश भेजें"
+
+msgid "Get instant AI-powered agricultural advice"
+msgstr "तुरंत एआई-संचालित कृषि सलाह प्राप्त करें"
+
+msgid "Krishi Salahkar AI"
+msgstr "कृषि सलाहकार एआई"
+
+msgid "Your Intelligent Agricultural Assistant"
+msgstr "आपका बुद्धिमान कृषि सहायक"
+
+msgid "Ask me anything about farming, crops, irrigation, pests, or agricultural practices in Odisha!"
+msgstr "खेती, फसलों, सिंचाई, कीटों या ओडिशा में कृषि प्रथाओं के बारे में कुछ भी पूछें!"
+
+msgid "Type your farming question here..."
+msgstr "यहाँ अपना खेती का सवाल लिखें..."
+
+msgid "Ask"
+msgstr "पूछें"
+
+# Contact page
+msgid "Get In Touch"
+msgstr "संपर्क करें"
+
+msgid "Contact"
+msgstr "संपर्क"
+
+msgid "Us"
+msgstr "हमसे"
+
+msgid "Location"
+msgstr "स्थान"
+
+msgid "Email"
+msgstr "ईमेल"
+
+msgid "Response Time"
+msgstr "जवाब का समय"
+
+msgid "Within 24 hours"
+msgstr "24 घंटे के भीतर"
+
+msgid "AI Chatbot"
+msgstr "एआई चैटबॉट"
+
+msgid "Available 24/7 on homepage"
+msgstr "होमपेज पर 24/7 उपलब्ध"
+
+msgid "Send Us a Message"
+msgstr "हमें संदेश भेजें"
+
+msgid "Fill in the form below and we'll get back to you shortly."
+msgstr "नीचे फॉर्म भरें और हम जल्द ही आपसे संपर्क करेंगे।"
+
+msgid "Your full name"
+msgstr "आपका पूरा नाम"
+
+msgid "Subject of your message"
+msgstr "आपके संदेश का विषय"
+
+msgid "Tell us how we can help you..."
+msgstr "बताएं हम आपकी कैसे मदद कर सकते हैं..."
+
+# Weather page
+msgid "Live Weather"
+msgstr "लाइव मौसम"
+
+msgid "Forecast"
+msgstr "पूर्वानुमान"
+
+msgid "Real-time weather powered by Open-Meteo — free, accurate, no API key needed."
+msgstr "Open-Meteo द्वारा रियल-टाइम मौसम — मुफ्त, सटीक, कोई API कुंजी नहीं।"
+
+msgid "Search City"
+msgstr "शहर खोजें"
+
+msgid "Enter city name..."
+msgstr "शहर का नाम दर्ज करें..."
+
+msgid "Search"
+msgstr "खोजें"
+
+msgid "Quick Cities"
+msgstr "त्वरित शहर"
+
+msgid "Feels Like"
+msgstr "महसूस होता है"
+
+msgid "Humidity"
+msgstr "नमी"
+
+msgid "Wind Speed"
+msgstr "हवा की गति"
+
+msgid "Visibility"
+msgstr "दृश्यता"
+
+msgid "5-Day Forecast"
+msgstr "5-दिन का पूर्वानुमान"
+
+msgid "Farming Advisory Based on Current Weather"
+msgstr "वर्तमान मौसम के आधार पर कृषि सलाह"
+
+msgid "Farming Advisory"
+msgstr "कृषि सलाह"
+
+msgid "High Temp Alert:"
+msgstr "उच्च तापमान चेतावनी:"
+
+msgid "Increase irrigation frequency. Avoid pesticide spraying 11am–3pm."
+msgstr "सिंचाई की आवृत्ति बढ़ाएं। सुबह 11 बजे से दोपहर 3 बजे के बीच कीटनाशक छिड़काव से बचें।"
+
+msgid "Cool Weather:"
+msgstr "ठंडा मौसम:"
+
+msgid "Good for Rabi crops. Protect seedlings from frost."
+msgstr "रबी फसलों के लिए अच्छा। पाले से पौधों की रक्षा करें।"
+
+msgid "Good Conditions:"
+msgstr "अच्छी परिस्थितियाँ:"
+
+msgid "Favorable for sowing and transplanting most crops."
+msgstr "अधिकांश फसलों की बुवाई और रोपाई के लिए अनुकूल।"
+
+msgid "High humidity — watch for fungal diseases."
+msgstr "उच्च नमी — फफूंद रोगों पर ध्यान दें।"
+
+msgid "Strong winds — avoid spraying."
+msgstr "तेज हवाएं — छिड़काव से बचें।"
+
+msgid "Search for a City"
+msgstr "शहर खोजें"
+
+msgid "Enter a city name on the left to get the current weather and 5-day forecast."
+msgstr "वर्तमान मौसम और 5-दिन का पूर्वानुमान पाने के लिए बाईं ओर शहर का नाम दर्ज करें।"
+
+msgid "Current conditions & 5-day forecast"
+msgstr "वर्तमान स्थिति और 5-दिन का पूर्वानुमान"
+
+# Farm Input page
+msgid "AI Advisory"
+msgstr "एआई सलाह"
+
+msgid "Get Your"
+msgstr "अपनी"
+
+msgid "Crop Advisory"
+msgstr "फसल सलाह लें"
+
+msgid "Fill in your farm details and get AI-powered yield predictions with personalized recommendations."
+msgstr "अपने खेत की जानकारी भरें और व्यक्तिगत सिफारिशों के साथ एआई-संचालित उपज पूर्वानुमान प्राप्त करें।"
+
+msgid "AI Yield Prediction"
+msgstr "एआई उपज पूर्वानुमान"
+
+msgid "95% accuracy with confidence intervals"
+msgstr "विश्वास अंतराल के साथ 95% सटीकता"
+
+msgid "3 Priority Actions"
+msgstr "3 प्राथमिकता कार्य"
+
+msgid "Actionable steps to improve your yield"
+msgstr "उपज सुधारने के लिए कार्रवाई योग्य कदम"
+
+msgid "Nearby Shop Suggestions"
+msgstr "नजदीकी दुकान सुझाव"
+
+msgid "Find seeds, fertilizers & tools near you"
+msgstr "अपने पास बीज, उर्वरक और उपकरण खोजें"
+
+msgid "30 Districts Covered"
+msgstr "30 जिले कवर"
+
+msgid "All of Odisha's districts supported"
+msgstr "ओडिशा के सभी जिले समर्थित"
+
+msgid "Farm Information"
+msgstr "खेत की जानकारी"
+
+msgid "Provide accurate details for the best AI predictions."
+msgstr "सर्वोत्तम एआई पूर्वानुमान के लिए सटीक जानकारी दें।"
+
+msgid "Back"
+msgstr "वापस"
+
+msgid "Get AI Recommendation"
+msgstr "एआई सिफारिश प्राप्त करें"
+
+msgid "Analyzing..."
+msgstr "विश्लेषण हो रहा है..."
+
+msgid "Helps provide better nutrient recommendations"
+msgstr "बेहतर पोषक तत्व सिफारिशें प्रदान करने में मदद करता है"
+
+msgid "Enables targeted pest management advice"
+msgstr "लक्षित कीट प्रबंधन सलाह सक्षम करता है"
+
+# About page
+msgid "About Us"
+msgstr "हमारे बारे में"
+
+msgid "Revolutionizing"
+msgstr "क्रांति ला रहे हैं"
+
+msgid "Farming with AI"
+msgstr "एआई से खेती में"
+
+msgid "Krishi Salahkar empowers Odisha farmers with intelligent crop yield predictions and data-driven recommendations."
+msgstr "कृषि सलाहकार ओडिशा के किसानों को बुद्धिमान फसल उपज पूर्वानुमान और डेटा-संचालित सिफारिशों से सशक्त बनाता है।"
+
+msgid "Our Mission"
+msgstr "हमारा मिशन"
+
+msgid "To empower farmers with AI-driven insights that optimize crop yields, reduce risks, and improve livelihoods through data-driven decision making."
+msgstr "किसानों को एआई-संचालित जानकारी से सशक्त बनाना जो फसल उपज को अनुकूलित करे, जोखिम कम करे और डेटा-संचालित निर्णय लेने से आजीविका में सुधार करे।"
+
+msgid "Districts"
+msgstr "जिले"
+
+msgid "Crops"
+msgstr "फसलें"
+
+msgid "Accuracy"
+msgstr "सटीकता"
+
+msgid "Seasons"
+msgstr "मौसम"
+
+msgid "Key Features"
+msgstr "मुख्य विशेषताएं"
+
+msgid "Everything you need for smarter farming decisions"
+msgstr "स्मार्ट खेती के निर्णयों के लिए आपको जो कुछ चाहिए"
+
+msgid "Yield Prediction"
+msgstr "उपज पूर्वानुमान"
+
+msgid "ML models predict crop yields with 95% accuracy using historical data."
+msgstr "एमएल मॉडल ऐतिहासिक डेटा का उपयोग करके 95% सटीकता के साथ फसल उपज का पूर्वानुमान लगाते हैं।"
+
+msgid "Personalized Advice"
+msgstr "व्यक्तिगत सलाह"
+
+msgid "Tailored irrigation, fertilization & pest management recommendations."
+msgstr "अनुकूलित सिंचाई, उर्वरक और कीट प्रबंधन सिफारिशें।"
+
+msgid "District-Specific"
+msgstr "जिला-विशिष्ट"
+
+msgid "Localized insights for all 30 districts with region-specific data."
+msgstr "क्षेत्र-विशिष्ट डेटा के साथ सभी 30 जिलों के लिए स्थानीय जानकारी।"
+
+msgid "Seasonal Advisory"
+msgstr "मौसमी सलाह"
+
+msgid "Kharif, Rabi & Zaid season-specific guidance with optimal timing."
+msgstr "खरीफ, रबी और जायद मौसम-विशिष्ट मार्गदर्शन।"
+
+msgid "Nearby Shops"
+msgstr "नजदीकी दुकानें"
+
+msgid "Find seeds, fertilizers & agri-tools near your district."
+msgstr "अपने जिले के पास बीज, उर्वरक और कृषि उपकरण खोजें।"
+
+msgid "AI Chatbot"
+msgstr "एआई चैटबॉट"
+
+msgid "24/7 farming assistant for crops, irrigation & pest queries."
+msgstr "फसलों, सिंचाई और कीट प्रश्नों के लिए 24/7 कृषि सहायक।"
+
+msgid "How It Works"
+msgstr "यह कैसे काम करता है"
+
+msgid "Enter Farm Details"
+msgstr "खेत की जानकारी दर्ज करें"
+
+msgid "District, crop, soil type, irrigation, season & sowing date."
+msgstr "जिला, फसल, मिट्टी का प्रकार, सिंचाई, मौसम और बुवाई की तारीख।"
+
+msgid "AI Analysis"
+msgstr "एआई विश्लेषण"
+
+msgid "Random Forest model processes historical data for your inputs."
+msgstr "रैंडम फॉरेस्ट मॉडल आपके इनपुट के लिए ऐतिहासिक डेटा प्रोसेस करता है।"
+
+msgid "Get predicted yield in kg/ha with confidence intervals."
+msgstr "विश्वास अंतराल के साथ kg/ha में पूर्वानुमानित उपज प्राप्त करें।"
+
+msgid "Priority Actions + Nearby Shops"
+msgstr "प्राथमिकता कार्य + नजदीकी दुकानें"
+
+msgid "3 actionable recommendations + links to find agri-input shops near you."
+msgstr "3 कार्रवाई योग्य सिफारिशें + आपके पास कृषि-इनपुट दुकानें खोजने के लिंक।"
+
+msgid "Technology Stack"
+msgstr "तकनीकी स्टैक"
+
+msgid "Ready to get started?"
+msgstr "शुरू करने के लिए तैयार हैं?"
+
+# Recommendation page
+msgid "Your AI Crop Advisory"
+msgstr "आपकी एआई फसल सलाह"
+
+msgid "Personalized recommendations based on your farm data"
+msgstr "आपके खेत के डेटा के आधार पर व्यक्तिगत सिफारिशें"
+
+msgid "Predicted Yield"
+msgstr "पूर्वानुमानित उपज"
+
+msgid "Expected Gain"
+msgstr "अपेक्षित लाभ"
+
+msgid "Total kg"
+msgstr "कुल किलोग्राम"
+
+msgid "Confidence"
+msgstr "विश्वास"
+
+msgid "District Average"
+msgstr "जिला औसत"
+
+msgid "above average"
+msgstr "औसत से ऊपर"
+
+msgid "below average"
+msgstr "औसत से नीचे"
+
+msgid "At district average"
+msgstr "जिला औसत पर"
+
+msgid "Your Farm Profile"
+msgstr "आपकी खेत प्रोफ़ाइल"
+
+msgid "Top 3 Priority Actions"
+msgstr "शीर्ष 3 प्राथमिकता कार्य"
+
+msgid "AI-recommended steps for optimal yield"
+msgstr "इष्टतम उपज के लिए एआई-अनुशंसित कदम"
+
+msgid "High Priority"
+msgstr "उच्च प्राथमिकता"
+
+msgid "Immediate"
+msgstr "तत्काल"
+
+msgid "Medium Priority"
+msgstr "मध्यम प्राथमिकता"
+
+msgid "This Week"
+msgstr "इस सप्ताह"
+
+msgid "Standard Priority"
+msgstr "सामान्य प्राथमिकता"
+
+msgid "This Month"
+msgstr "इस महीने"
+
+msgid "Nearby Agricultural Shops"
+msgstr "नजदीकी कृषि दुकानें"
+
+msgid "Find seeds, fertilizers & pesticides near you to implement these recommendations"
+msgstr "इन सिफारिशों को लागू करने के लिए अपने पास बीज, उर्वरक और कीटनाशक खोजें"
+
+msgid "These are common types of agri-input shops available in Odisha districts. Visit your nearest Krishi Bhawan or cooperative for verified suppliers."
+msgstr "ये ओडिशा जिलों में उपलब्ध सामान्य प्रकार की कृषि-इनपुट दुकानें हैं। सत्यापित आपूर्तिकर्ताओं के लिए अपने निकटतम कृषि भवन या सहकारी समिति पर जाएं।"
+
+msgid "Certified seeds for"
+msgstr "के लिए प्रमाणित बीज"
+
+msgid "Seeds"
+msgstr "बीज"
+
+msgid "Fertilizers, pesticides & tools"
+msgstr "उर्वरक, कीटनाशक और उपकरण"
+
+msgid "Fertilizers"
+msgstr "उर्वरक"
+
+msgid "Pesticides"
+msgstr "कीटनाशक"
+
+msgid "Irrigation equipment & farm tools"
+msgstr "सिंचाई उपकरण और खेत के औजार"
+
+msgid "Equipment"
+msgstr "उपकरण"
+
+msgid "Government-approved NPK fertilizers"
+msgstr "सरकार-अनुमोदित एनपीके उर्वरक"
+
+msgid "NPK"
+msgstr "एनपीके"
+
+msgid "Organic"
+msgstr "जैविक"
+
+msgid "Find Shops on Google Maps"
+msgstr "Google Maps पर दुकानें खोजें"
+
+msgid "Search Agri Shops"
+msgstr "कृषि दुकानें खोजें"
+
+msgid "Find Krishi Bhawan"
+msgstr "कृषि भवन खोजें"
+
+msgid "AI Analysis & Reasoning"
+msgstr "एआई विश्लेषण और तर्क"
+
+msgid "What's Next?"
+msgstr "आगे क्या?"
+
+msgid "New Advisory"
+msgstr "नई सलाह"
+
+msgid "Another crop"
+msgstr "दूसरी फसल"
+
+msgid "Print Report"
+msgstr "रिपोर्ट प्रिंट करें"
+
+msgid "Save as PDF"
+msgstr "PDF के रूप में सहेजें"
+
+msgid "Share"
+msgstr "साझा करें"
+
+msgid "Share with farmers"
+msgstr "किसानों के साथ साझा करें"
+
+msgid "How helpful was this advisory?"
+msgstr "यह सलाह कितनी उपयोगी थी?"
+
+msgid "Your feedback helps improve our AI"
+msgstr "आपकी प्रतिक्रिया हमारे एआई को बेहतर बनाने में मदद करती है"
+
+msgid "District"
+msgstr "जिला"
+
+msgid "Crop"
+msgstr "फसल"
+
+msgid "Season"
+msgstr "मौसम"
+
+msgid "Field Area"
+msgstr "खेत का क्षेत्र"
+
+msgid "Irrigation"
+msgstr "सिंचाई"
+
+msgid "Seed Variety"
+msgstr "बीज की किस्म"
+
+msgid "Soil Health Card"
+msgstr "मृदा स्वास्थ्य कार्ड"
+
+msgid "Available"
+msgstr "उपलब्ध"
+
+msgid "Not Available"
+msgstr "उपलब्ध नहीं"
+
+msgid "Pest Status"
+msgstr "कीट स्थिति"
+
+msgid "Present"
+msgstr "मौजूद"
+
+msgid "Not Detected"
+msgstr "नहीं पाया गया"
+
+msgid "Machine Learning"
+msgstr "मशीन लर्निंग"
+
+msgid "Historical Data"
+msgstr "ऐतिहासिक डेटा"
+
+msgid "Local Conditions"
+msgstr "स्थानीय परिस्थितियाँ"
+
+msgid "Copied to clipboard!"
+msgstr "क्लिपबोर्ड पर कॉपी हो गया!"
+
+# Quick links
+msgid "Quick:"
+msgstr "त्वरित:"
+
+msgid "Please check the city name and try again."
+msgstr "कृपया शहर का नाम जांचें और पुनः प्रयास करें।"

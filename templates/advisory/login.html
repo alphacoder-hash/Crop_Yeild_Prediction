@@ -1,67 +1,105 @@
 {% extends 'advisory/base.html' %}
-
-{% block title %}Login - Krishi Salahkar{% endblock %}
-
+{% block title %}Login — Krishi Salahkar{% endblock %}
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="fas fa-sign-in-alt me-2"></i>Login to Krishi Salahkar</h4>
+
+<div class="split-page">
+    <div class="container-fluid h-100 p-0">
+        <div class="row g-0 h-100">
+
+            <!-- LEFT -->
+            <div class="col-lg-5 split-left d-flex flex-column justify-content-center p-5">
+                <div class="sl-badge mb-3"><i class="fas fa-seedling me-2"></i>Krishi Salahkar</div>
+                <h1 class="sl-title mb-2">Welcome<br><span>Back!</span></h1>
+                <p class="sl-subtitle mb-5">Log in to access AI-powered crop yield predictions and personalized farming recommendations for Odisha.</p>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="sl-feature-item"><div class="sl-feat-icon" style="background:#1b5e20;"><i class="fas fa-chart-line"></i></div><div><div class="sl-feat-title">AI Yield Predictions</div><div class="sl-feat-text">95% accuracy with confidence intervals</div></div></div>
+                    <div class="sl-feature-item"><div class="sl-feat-icon" style="background:#1565c0;"><i class="fas fa-cloud-sun"></i></div><div><div class="sl-feat-title">Real-time Weather</div><div class="sl-feat-text">Powered by Open-Meteo API</div></div></div>
+                    <div class="sl-feature-item"><div class="sl-feat-icon" style="background:#e65100;"><i class="fas fa-robot"></i></div><div><div class="sl-feat-title">Farming Chatbot</div><div class="sl-feat-text">24/7 crop & irrigation advice</div></div></div>
+                    <div class="sl-feature-item"><div class="sl-feat-icon" style="background:#6a1b9a;"><i class="fas fa-store"></i></div><div><div class="sl-feat-title">Nearby Shop Finder</div><div class="sl-feat-text">Seeds, fertilizers & tools near you</div></div></div>
                 </div>
-                <div class="card-body">
+            </div>
+
+            <!-- RIGHT -->
+            <div class="col-lg-7 split-right d-flex flex-column justify-content-center p-4 p-md-5">
+                <div class="auth-form-wrap mx-auto">
+                    <div class="text-center mb-4">
+                        <div class="auth-icon-circle mx-auto mb-3"><i class="fas fa-sign-in-alt"></i></div>
+                        <h3 class="fw-bold mb-1">Sign In</h3>
+                        <p class="text-muted small">Enter your credentials to continue</p>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger rounded-3 py-2 mb-3">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+
                     <form method="post" novalidate>
                         {% csrf_token %}
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                {% for error in form.non_field_errors %}
-                                    {{ error }}
-                                {% endfor %}
-                            </div>
-                        {% endif %}
                         <div class="mb-3">
-                            <label for="id_username" class="form-label">Username</label>
-                            <input type="text" name="username" autofocus required id="id_username" class="form-control" placeholder="Enter your username">
-                        </div>
-                        <div class="mb-3">
-                            <label for="id_password" class="form-label">Password</label>
-                            <div class="input-group">
-                                <input type="password" name="password" required id="id_password" class="form-control rounded-start" placeholder="Enter your password" style="border-radius: 15px 0 0 15px;">
-                                <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border-radius: 0 15px 15px 0;">
-                                    <i class="fas fa-eye" id="passwordIcon"></i>
-                                </button>
+                            <label class="sr-label">Username</label>
+                            <div class="sr-input-wrap">
+                                <i class="fas fa-user sr-icon"></i>
+                                <input type="text" name="username" id="id_username" class="sr-input" placeholder="Enter your username" autofocus required>
                             </div>
                         </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                        <div class="mb-4">
+                            <label class="sr-label">Password</label>
+                            <div class="sr-input-wrap">
+                                <i class="fas fa-lock sr-icon"></i>
+                                <input type="password" name="password" id="id_password" class="sr-input" placeholder="Enter your password" required>
+                                <button type="button" class="sr-eye-btn" onclick="togglePwd('id_password','eye1')"><i class="fas fa-eye" id="eye1"></i></button>
+                            </div>
                         </div>
+                        <button type="submit" class="sr-submit-btn w-100 mb-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login
+                        </button>
                     </form>
-                    <hr>
+
                     <div class="text-center">
-                        <p class="mb-2">Don't have an account?</p>
-                        <a href="{% url 'signup' %}" class="btn btn-success">Create New Account</a>
+                        <span class="text-muted small">Don't have an account? </span>
+                        <a href="{% url 'signup' %}" class="auth-link">Create one free</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
+{% endblock %}
+{% block extra_js %}
+<style>
+.split-page { min-height: calc(100vh - 70px); display: flex; }
+.split-left { background: linear-gradient(160deg,#0b3d0b 0%,#145214 60%,#1b5e20 100%); position: relative; overflow: hidden; }
+.split-left::after { content: '🌱'; position: absolute; font-size: 14rem; opacity: 0.05; bottom: -2rem; right: -2rem; pointer-events: none; }
+.sl-badge { display: inline-flex; align-items: center; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 6px 16px; color: #fff; font-size: 0.82rem; font-weight: 600; width: fit-content; }
+.sl-title { font-size: clamp(2rem,4vw,3rem); font-weight: 900; color: #fff; line-height: 1.1; }
+.sl-title span { color: #a5d6a7; }
+.sl-subtitle { color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.65; }
+.sl-feature-item { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 13px; padding: 13px 15px; transition: all 0.25s; }
+.sl-feature-item:hover { background: rgba(255,255,255,0.2); transform: translateX(4px); }
+.sl-feat-icon { width: 40px; height: 40px; min-width: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.95rem; }
+.sl-feat-title { color: #fff; font-weight: 700; font-size: 0.88rem; }
+.sl-feat-text { color: rgba(255,255,255,0.72); font-size: 0.78rem; margin-top: 1px; }
+.split-right { background: #f5f7f5; }
+.auth-form-wrap { width: 100%; max-width: 420px; }
+.auth-icon-circle { width: 60px; height: 60px; background: linear-gradient(135deg,#145214,#66bb6a); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.3rem; }
+.sr-label { font-weight: 700; font-size: 0.85rem; color: #333; margin-bottom: 6px; display: block; }
+.sr-input-wrap { position: relative; }
+.sr-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.85rem; z-index: 2; }
+.sr-input { width: 100%; padding: 12px 14px 12px 38px; border: 2px solid #dde8dd; border-radius: 11px; font-size: 0.92rem; color: #222; background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+.sr-input:focus { border-color: #145214; box-shadow: 0 0 0 3px rgba(20,82,20,0.1); }
+.sr-eye-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #aaa; cursor: pointer; }
+.sr-submit-btn { background: linear-gradient(135deg,#145214,#66bb6a); color: #fff; border: none; border-radius: 11px; padding: 13px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+.sr-submit-btn:hover { background: linear-gradient(135deg,#0b3d0b,#145214); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(20,82,20,0.3); }
+.auth-link { color: #145214; font-weight: 700; text-decoration: none; }
+.auth-link:hover { text-decoration: underline; }
+@media(max-width:991px){ .split-left { padding: 36px 24px !important; } .split-right { padding: 30px !important; } }
+</style>
 <script>
-document.getElementById('togglePassword').addEventListener('click', function() {
-    const passwordField = document.getElementById('id_password');
-    const passwordIcon = document.getElementById('passwordIcon');
-
-    if (passwordField.type === 'password') {
-        passwordField.type = 'text';
-        passwordIcon.classList.remove('fa-eye');
-        passwordIcon.classList.add('fa-eye-slash');
-    } else {
-        passwordField.type = 'password';
-        passwordIcon.classList.remove('fa-eye-slash');
-        passwordIcon.classList.add('fa-eye');
-    }
-});
+function togglePwd(f,i){ const el=document.getElementById(f),ic=document.getElementById(i); el.type=el.type==='password'?'text':'password'; ic.classList.toggle('fa-eye'); ic.classList.toggle('fa-eye-slash'); }
 </script>
 {% endblock %}

@@ -1,280 +1,210 @@
 {% extends 'advisory/base.html' %}
-
-{% block title %}Crop Advisory Recommendation{% endblock %}
-
+{% load i18n %}
+{% block title %}{% trans "Crop Advisory Result" %} — Krishi Salahkar{% endblock %}
 {% block content %}
+
 <div class="container py-5">
-    <!-- Success Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="text-center">
-                <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white mb-3" style="width: 80px; height: 80px;">
-                    <i class="fas fa-check fs-1"></i>
-                </div>
-                <h1 class="display-5 fw-bold mb-2">Your AI-Powered Crop Advisory</h1>
-                <p class="lead text-muted">Personalized recommendations based on your farm data</p>
-            </div>
+
+    <!-- Header -->
+    <div class="text-center mb-5 fade-in-up">
+        <div class="result-check-circle mx-auto mb-3">
+            <i class="fas fa-check fa-2x text-white"></i>
         </div>
+        <h2 class="fw-bold mb-1">{% trans "Your AI Crop Advisory" %}</h2>
+        <p class="text-muted">{% trans "Personalized recommendations based on your farm data" %}</p>
     </div>
-    
-    <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <!-- Yield Prediction Card -->
-            <div class="card yield-prediction mb-4 border-0 position-relative overflow-hidden">
-                <div class="floating-elements"></div>
-                <div class="card-body text-center p-5 position-relative">
-                    <div class="mb-4">
-                        <i class="fas fa-chart-line fs-1 mb-3 pulse"></i>
-                        <h2 class="card-title mb-4">Predicted Yield</h2>
-                    </div>
-                    
-                    <div class="row g-4 mb-4">
-                        <div class="col-md-4">
-                            <div class="glass-effect p-4 rounded-3">
-                                <div class="display-4 fw-bold mb-2">{{ recommendation.predicted_yield|floatformat:0 }}</div>
-                                <div class="fs-5 opacity-75">kg/ha</div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="glass-effect p-4 rounded-3">
-                                <div class="fs-2 fw-bold mb-2 text-warning">{{ recommendation.estimated_gain|floatformat:1 }}%</div>
-                                <div class="fs-6 opacity-75">Expected Gain</div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="glass-effect p-4 rounded-3">
-                                <div class="fs-2 fw-bold mb-2">{{ total_production|floatformat:0 }}</div>
-                                <div class="fs-6 opacity-75">Total kg</div>
-                            </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+            <!-- Yield Prediction -->
+            <div class="yield-card mb-4">
+                <div class="text-center mb-4">
+                    <i class="fas fa-chart-line fa-2x mb-2 pulse"></i>
+                    <h4 class="fw-bold mb-0">{% trans "Predicted Yield" %}</h4>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="yield-stat-card text-center">
+                            <div class="yield-stat-value">{{ recommendation.predicted_yield|floatformat:0 }}</div>
+                            <div class="yield-stat-label">kg/ha</div>
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <span class="badge bg-light text-dark fs-6 px-3 py-2">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Confidence: {{ recommendation.confidence_interval }}
-                        </span>
-                    </div>
-                    
-                    {% if yield_comparison %}
-                    <div class="mt-4">
-                        <div class="glass-effect p-3 rounded-3">
-                            <small class="text-light d-block mb-2">
-                                <strong>District Average:</strong> {{ yield_comparison.district_avg|floatformat:0 }} kg/ha
-                            </small>
-                            {% if yield_comparison.improvement > 0 %}
-                                <span class="badge bg-success fs-6"><i class="fas fa-arrow-up me-1"></i>+{{ yield_comparison.improvement|floatformat:1 }}% above average</span>
-                            {% elif yield_comparison.improvement < 0 %}
-                                <span class="badge bg-warning fs-6"><i class="fas fa-arrow-down me-1"></i>{{ yield_comparison.improvement|floatformat:1 }}% below average</span>
-                            {% else %}
-                                <span class="badge bg-info fs-6"><i class="fas fa-equals me-1"></i>At district average</span>
-                            {% endif %}
+                    <div class="col-md-4">
+                        <div class="yield-stat-card text-center">
+                            <div class="yield-stat-value" style="color:#ffd700;">{{ recommendation.estimated_gain|floatformat:1 }}%</div>
+                            <div class="yield-stat-label">{% trans "Expected Gain" %}</div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="yield-stat-card text-center">
+                            <div class="yield-stat-value">{{ total_production|floatformat:0 }}</div>
+                            <div class="yield-stat-label">{% trans "Total kg" %}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mb-3">
+                    <span class="badge bg-light text-dark px-3 py-2">
+                        <i class="fas fa-info-circle me-1"></i>{% trans "Confidence" %}: {{ recommendation.confidence_interval }}
+                    </span>
+                </div>
+                {% if yield_comparison %}
+                <div class="yield-comparison text-center">
+                    <small class="d-block mb-2 opacity-75">{% trans "District Average" %}: {{ yield_comparison.district_avg|floatformat:0 }} kg/ha</small>
+                    {% if yield_comparison.improvement > 0 %}
+                    <span class="badge bg-success fs-6"><i class="fas fa-arrow-up me-1"></i>+{{ yield_comparison.improvement|floatformat:1 }}% {% trans "above average" %}</span>
+                    {% elif yield_comparison.improvement < 0 %}
+                    <span class="badge bg-warning fs-6"><i class="fas fa-arrow-down me-1"></i>{{ yield_comparison.improvement|floatformat:1 }}% {% trans "below average" %}</span>
+                    {% else %}
+                    <span class="badge bg-info fs-6">{% trans "At district average" %}</span>
                     {% endif %}
                 </div>
+                {% endif %}
             </div>
 
-            <!-- Farm Details -->
-            <div class="card mb-4 border-0">
-                <div class="card-header text-white position-relative" style="background: linear-gradient(135deg, #007bff, #0056b3); border-radius: 20px 20px 0 0;">
-                    <h5 class="mb-0 position-relative">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Your Farm Profile
-                    </h5>
+            <!-- Farm Profile -->
+            <div class="card border-0 mb-4">
+                <div class="card-header text-white" style="background:linear-gradient(135deg,#1565c0,#42a5f5);">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>{% trans "Your Farm Profile" %}</h5>
                 </div>
                 <div class="card-body p-4">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-map-marker-alt text-primary me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">District</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.get_district_display }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-seedling text-success me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">Crop</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.get_crop_display }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-calendar text-info me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">Season</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.get_season_display }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-expand-arrows-alt text-warning me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">Field Area</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.field_area }} hectares</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-tint text-primary me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">Irrigation</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.get_irrigation_display }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-mountain text-brown me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">Soil Type</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.get_soil_type_display }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-leaf text-success me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">Seed Variety</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.get_seed_variety_display }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center p-3 bg-light rounded-3">
-                                        <i class="fas fa-calendar-day text-info me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block">Sowing Date</strong>
-                                            <span class="text-muted">{{ recommendation.farm_input.sowing_date }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-4"><div class="farm-info-item"><i class="fas fa-map-marker-alt text-primary"></i><div><strong>{% trans "District" %}</strong><span>{{ recommendation.farm_input.get_district_display }}</span></div></div></div>
+                        <div class="col-md-6 col-lg-4"><div class="farm-info-item"><i class="fas fa-seedling text-success"></i><div><strong>{% trans "Crop" %}</strong><span>{{ recommendation.farm_input.get_crop_display }}</span></div></div></div>
+                        <div class="col-md-6 col-lg-4"><div class="farm-info-item"><i class="fas fa-calendar text-info"></i><div><strong>{% trans "Season" %}</strong><span>{{ recommendation.farm_input.get_season_display }}</span></div></div></div>
+                        <div class="col-md-6 col-lg-4"><div class="farm-info-item"><i class="fas fa-expand-arrows-alt text-warning"></i><div><strong>{% trans "Field Area" %}</strong><span>{{ recommendation.farm_input.field_area }} ha</span></div></div></div>
+                        <div class="col-md-6 col-lg-4"><div class="farm-info-item"><i class="fas fa-tint text-primary"></i><div><strong>{% trans "Irrigation" %}</strong><span>{{ recommendation.farm_input.get_irrigation_display }}</span></div></div></div>
+                        <div class="col-md-6 col-lg-4"><div class="farm-info-item"><i class="fas fa-leaf text-success"></i><div><strong>{% trans "Seed Variety" %}</strong><span>{{ recommendation.farm_input.get_seed_variety_display }}</span></div></div></div>
                     </div>
-                    
-                    <!-- Additional Info -->
-                    <div class="row mt-4">
+                    <div class="row g-3 mt-1">
                         <div class="col-md-6">
-                            <div class="text-center p-3 rounded-3" style="background: {% if recommendation.farm_input.soil_health_card %}linear-gradient(135deg, #d4edda, #c3e6cb){% else %}linear-gradient(135deg, #f8d7da, #f5c6cb){% endif %};">
-                                <i class="fas fa-clipboard-check fs-4 mb-2 {% if recommendation.farm_input.soil_health_card %}text-success{% else %}text-danger{% endif %}"></i>
-                                <div><strong>Soil Health Card</strong></div>
-                                <small>{% if recommendation.farm_input.soil_health_card %}Available{% else %}Not Available{% endif %}</small>
+                            <div class="text-center p-3 rounded-3" style="background:{% if recommendation.farm_input.soil_health_card %}#d4edda{% else %}#f8d7da{% endif %};">
+                                <i class="fas fa-clipboard-check {% if recommendation.farm_input.soil_health_card %}text-success{% else %}text-danger{% endif %} fs-4 mb-1"></i>
+                                <div class="fw-bold small">{% trans "Soil Health Card" %}</div>
+                                <small>{% if recommendation.farm_input.soil_health_card %}{% trans "Available" %}{% else %}{% trans "Not Available" %}{% endif %}</small>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="text-center p-3 rounded-3" style="background: {% if recommendation.farm_input.pest_presence %}linear-gradient(135deg, #f8d7da, #f5c6cb){% else %}linear-gradient(135deg, #d4edda, #c3e6cb){% endif %};">
-                                <i class="fas fa-bug fs-4 mb-2 {% if recommendation.farm_input.pest_presence %}text-danger{% else %}text-success{% endif %}"></i>
-                                <div><strong>Pest Status</strong></div>
-                                <small>{% if recommendation.farm_input.pest_presence %}Present{% else %}Not Detected{% endif %}</small>
+                            <div class="text-center p-3 rounded-3" style="background:{% if recommendation.farm_input.pest_presence %}#f8d7da{% else %}#d4edda{% endif %};">
+                                <i class="fas fa-bug {% if recommendation.farm_input.pest_presence %}text-danger{% else %}text-success{% endif %} fs-4 mb-1"></i>
+                                <div class="fw-bold small">{% trans "Pest Status" %}</div>
+                                <small>{% if recommendation.farm_input.pest_presence %}{% trans "Present" %}{% else %}{% trans "Not Detected" %}{% endif %}</small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Recommendations -->
-            <div class="card recommendation-card mb-4 border-0">
-                <div class="card-header text-white position-relative" style="background: linear-gradient(135deg, var(--secondary-green), var(--light-green)); border-radius: 20px 20px 0 0;">
-                    <div class="floating-elements"></div>
-                    <h5 class="mb-0 position-relative">
-                        <i class="fas fa-lightbulb me-2"></i>
-                        Top 3 Priority Actions
-                    </h5>
-                    <small class="position-relative opacity-75">AI-recommended steps for optimal yield</small>
+            <!-- Priority Actions -->
+            <div class="card border-0 mb-4">
+                <div class="card-header text-white" style="background:linear-gradient(135deg,var(--secondary-green),var(--light-green));">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i>{% trans "Top 3 Priority Actions" %}</h5>
+                    <small class="opacity-75">{% trans "AI-recommended steps for optimal yield" %}</small>
                 </div>
                 <div class="card-body p-4">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="action-item p-4 position-relative">
-                                <div class="d-flex align-items-start">
-                                    <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; min-width: 50px;">
-                                        <span class="fw-bold fs-5">1</span>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="text-success mb-2 fw-bold">High Priority Action</h6>
-                                        <p class="mb-0 text-muted">{{ recommendation.action_1 }}</p>
-                                        <div class="mt-2">
-                                            <span class="badge bg-success">Immediate</span>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="action-item p-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="action-num" style="background:linear-gradient(135deg,var(--secondary-green),var(--light-green));">1</div>
+                                <div><h6 class="text-success fw-bold mb-1">{% trans "High Priority" %} <span class="badge bg-success ms-1">{% trans "Immediate" %}</span></h6><p class="mb-0 text-muted">{{ recommendation.action_1 }}</p></div>
                             </div>
                         </div>
-                        
-                        <div class="col-12">
-                            <div class="action-item p-4 position-relative">
-                                <div class="d-flex align-items-start">
-                                    <div class="rounded-circle bg-warning text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; min-width: 50px;">
-                                        <span class="fw-bold fs-5">2</span>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="text-warning mb-2 fw-bold">Medium Priority Action</h6>
-                                        <p class="mb-0 text-muted">{{ recommendation.action_2 }}</p>
-                                        <div class="mt-2">
-                                            <span class="badge bg-warning">This Week</span>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="action-item p-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="action-num" style="background:linear-gradient(135deg,#e65100,#ffa726);">2</div>
+                                <div><h6 class="text-warning fw-bold mb-1">{% trans "Medium Priority" %} <span class="badge bg-warning ms-1">{% trans "This Week" %}</span></h6><p class="mb-0 text-muted">{{ recommendation.action_2 }}</p></div>
                             </div>
                         </div>
-                        
-                        <div class="col-12">
-                            <div class="action-item p-4 position-relative">
-                                <div class="d-flex align-items-start">
-                                    <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; min-width: 50px;">
-                                        <span class="fw-bold fs-5">3</span>
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <h6 class="text-info mb-2 fw-bold">Standard Priority Action</h6>
-                                        <p class="mb-0 text-muted">{{ recommendation.action_3 }}</p>
-                                        <div class="mt-2">
-                                            <span class="badge bg-info">This Month</span>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="action-item p-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="action-num" style="background:linear-gradient(135deg,#00838f,#4dd0e1);">3</div>
+                                <div><h6 class="text-info fw-bold mb-1">{% trans "Standard Priority" %} <span class="badge bg-info ms-1">{% trans "This Month" %}</span></h6><p class="mb-0 text-muted">{{ recommendation.action_3 }}</p></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Reasoning -->
-            <div class="card mb-4 border-0">
-                <div class="card-header text-white position-relative" style="background: linear-gradient(135deg, #17a2b8, #138496); border-radius: 20px 20px 0 0;">
-                    <h5 class="mb-0 position-relative">
-                        <i class="fas fa-brain me-2"></i>
-                        AI Analysis & Reasoning
-                    </h5>
-                    <small class="position-relative opacity-75">How we calculated your recommendations</small>
+            <!-- Nearby Shops -->
+            <div class="card border-0 mb-4">
+                <div class="card-header text-white" style="background:linear-gradient(135deg,#6a1b9a,#ab47bc);">
+                    <h5 class="mb-0"><i class="fas fa-store me-2"></i>{% trans "Nearby Agricultural Shops" %}</h5>
+                    <small class="opacity-75">{% trans "Find seeds, fertilizers & pesticides near you to implement these recommendations" %}</small>
                 </div>
                 <div class="card-body p-4">
-                    <div class="d-flex align-items-start">
-                        <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; min-width: 50px;">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <div class="bg-light p-4 rounded-3">
-                                <p class="mb-0 text-muted lh-lg">{{ recommendation.reasoning }}</p>
+                    <p class="text-muted small mb-3"><i class="fas fa-info-circle me-1"></i>{% trans "These are common types of agri-input shops available in Odisha districts. Visit your nearest Krishi Bhawan or cooperative for verified suppliers." %}</p>
+                    <div class="row g-3" id="shopsGrid">
+                        {% with district=recommendation.farm_input.get_district_display crop=recommendation.farm_input.get_crop_display %}
+                        <div class="col-md-6">
+                            <div class="shop-card">
+                                <div class="shop-icon" style="background:linear-gradient(135deg,#145214,#66bb6a);"><i class="fas fa-seedling"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">{{ district }} Seed Store</h6>
+                                    <small class="text-muted">{% trans "Certified seeds for" %} {{ crop }}</small>
+                                    <div class="mt-1"><span class="badge bg-success">{% trans "Seeds" %}</span></div>
+                                </div>
                             </div>
-                            <div class="mt-3">
-                                <span class="badge bg-info me-2">Machine Learning</span>
-                                <span class="badge bg-secondary me-2">Historical Data</span>
-                                <span class="badge bg-success">Local Conditions</span>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="shop-card">
+                                <div class="shop-icon" style="background:linear-gradient(135deg,#1565c0,#42a5f5);"><i class="fas fa-flask"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">Krishi Seva Kendra</h6>
+                                    <small class="text-muted">{% trans "Fertilizers, pesticides & tools" %}</small>
+                                    <div class="mt-1"><span class="badge bg-primary">{% trans "Fertilizers" %}</span> <span class="badge bg-danger">{% trans "Pesticides" %}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="shop-card">
+                                <div class="shop-icon" style="background:linear-gradient(135deg,#e65100,#ffa726);"><i class="fas fa-tractor"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">{% trans "District Agri Equipment" %}</h6>
+                                    <small class="text-muted">{% trans "Irrigation equipment & farm tools" %}</small>
+                                    <div class="mt-1"><span class="badge bg-warning">{% trans "Equipment" %}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="shop-card">
+                                <div class="shop-icon" style="background:linear-gradient(135deg,#00838f,#4dd0e1);"><i class="fas fa-building"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">IFFCO / KRIBHCO Outlet</h6>
+                                    <small class="text-muted">{% trans "Government-approved NPK fertilizers" %}</small>
+                                    <div class="mt-1"><span class="badge bg-info">{% trans "NPK" %}</span> <span class="badge bg-success">{% trans "Organic" %}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endwith %}
+                    </div>
+                    <div class="mt-3 p-3 rounded-3" style="background:#f8f9fa;">
+                        <h6 class="fw-bold mb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>{% trans "Find Shops on Google Maps" %}</h6>
+                        <a href="https://www.google.com/maps/search/agricultural+shop+{{ recommendation.farm_input.get_district_display }}+Odisha" target="_blank" class="btn btn-outline-success btn-sm me-2">
+                            <i class="fas fa-search me-1"></i>{% trans "Search Agri Shops" %}
+                        </a>
+                        <a href="https://www.google.com/maps/search/krishi+bhawan+{{ recommendation.farm_input.get_district_display }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-landmark me-1"></i>{% trans "Find Krishi Bhawan" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Reasoning -->
+            <div class="card border-0 mb-4">
+                <div class="card-header text-white" style="background:linear-gradient(135deg,#00838f,#4dd0e1);">
+                    <h5 class="mb-0"><i class="fas fa-brain me-2"></i>{% trans "AI Analysis & Reasoning" %}</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex gap-3">
+                        <div class="action-num flex-shrink-0" style="background:linear-gradient(135deg,#00838f,#4dd0e1);"><i class="fas fa-robot"></i></div>
+                        <div>
+                            <div class="bg-light p-3 rounded-3 mb-3">
+                                <p class="mb-0 text-muted" style="line-height:1.8;">{{ recommendation.reasoning }}</p>
+                            </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-info">{% trans "Machine Learning" %}</span>
+                                <span class="badge bg-secondary">{% trans "Historical Data" %}</span>
+                                <span class="badge bg-success">{% trans "Local Conditions" %}</span>
                             </div>
                         </div>
                     </div>
@@ -282,217 +212,82 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="card border-0 mb-4" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef);">
+            <div class="card border-0 mb-4" style="background:linear-gradient(135deg,#f8f9fa,#e9ecef);">
                 <div class="card-body p-4">
-                    <h6 class="text-center mb-4"><i class="fas fa-tools me-2"></i>What's Next?</h6>
+                    <h6 class="text-center fw-bold mb-3"><i class="fas fa-tools me-2"></i>{% trans "What's Next?" %}</h6>
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <a href="{% url 'farm_input' %}" class="btn btn-primary w-100 py-3">
-                                <i class="fas fa-plus mb-2 d-block fs-4"></i>
-                                <span class="d-block fw-bold">New Advisory</span>
-                                <small class="d-block opacity-75">Get advice for another crop</small>
+                            <a href="{% url 'farm_input' %}" class="btn btn-primary w-100 py-3 d-flex flex-column align-items-center">
+                                <i class="fas fa-plus fs-4 mb-1"></i>
+                                <span class="fw-bold">{% trans "New Advisory" %}</span>
+                                <small class="opacity-75">{% trans "Another crop" %}</small>
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-success w-100 py-3" onclick="window.print()">
-                                <i class="fas fa-download mb-2 d-block fs-4"></i>
-                                <span class="d-block fw-bold">Download Report</span>
-                                <small class="d-block opacity-75">Save as PDF for offline use</small>
+                            <button class="btn btn-success w-100 py-3 d-flex flex-column align-items-center" onclick="window.print()">
+                                <i class="fas fa-print fs-4 mb-1"></i>
+                                <span class="fw-bold">{% trans "Print Report" %}</span>
+                                <small class="opacity-75">{% trans "Save as PDF" %}</small>
                             </button>
                         </div>
                         <div class="col-md-4">
-                            <button class="btn btn-info w-100 py-3" onclick="shareRecommendation()">
-                                <i class="fas fa-share mb-2 d-block fs-4"></i>
-                                <span class="d-block fw-bold">Share Results</span>
-                                <small class="d-block opacity-75">Share with other farmers</small>
+                            <button class="btn btn-info w-100 py-3 d-flex flex-column align-items-center" onclick="shareResult()">
+                                <i class="fas fa-share fs-4 mb-1"></i>
+                                <span class="fw-bold">{% trans "Share" %}</span>
+                                <small class="opacity-75">{% trans "Share with farmers" %}</small>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Feedback Section -->
-            <div class="card border-0" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7);">
+
+            <!-- Rating -->
+            <div class="card border-0" style="background:linear-gradient(135deg,#fff3cd,#ffeaa7);">
                 <div class="card-body p-4 text-center">
-                    <h6 class="mb-3"><i class="fas fa-star text-warning me-2"></i>How helpful was this advisory?</h6>
-                    <div class="d-flex justify-content-center gap-2 mb-3">
-                        <button class="btn btn-outline-warning btn-sm" onclick="rateFeedback(1)">
-                            <i class="fas fa-star"></i>
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="rateFeedback(2)">
-                            <i class="fas fa-star"></i>
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="rateFeedback(3)">
-                            <i class="fas fa-star"></i>
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="rateFeedback(4)">
-                            <i class="fas fa-star"></i>
-                        </button>
-                        <button class="btn btn-outline-warning btn-sm" onclick="rateFeedback(5)">
-                            <i class="fas fa-star"></i>
-                        </button>
+                    <h6 class="mb-3"><i class="fas fa-star text-warning me-2"></i>{% trans "How helpful was this advisory?" %}</h6>
+                    <div class="d-flex justify-content-center gap-2 mb-2" id="starRating">
+                        {% for i in "12345" %}<button class="btn btn-outline-warning btn-sm star-btn" data-rating="{{ i }}" onclick="rate({{ i }})"><i class="fas fa-star"></i></button>{% endfor %}
                     </div>
-                    <small class="text-muted">Your feedback helps us improve our AI recommendations</small>
+                    <small class="text-muted">{% trans "Your feedback helps improve our AI" %}</small>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
-<script>
-function shareRecommendation() {
-    const shareData = {
-        title: 'AI Crop Advisory - Krishi Salahkar',
-        text: `🌾 Predicted yield: {{ recommendation.predicted_yield|floatformat:0 }} kg/ha for {{ recommendation.farm_input.get_crop_display }} in {{ recommendation.farm_input.get_district_display }} district. Get your personalized farming advisory!`,
-        url: window.location.href
-    };
-    
-    if (navigator.share) {
-        navigator.share(shareData).catch(err => console.log('Error sharing:', err));
-    } else {
-        // Enhanced fallback with multiple options
-        const shareText = `${shareData.text}\n\n${shareData.url}`;
-        
-        // Try clipboard first
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(shareText).then(() => {
-                showNotification('Link copied to clipboard! 📋', 'success');
-            }).catch(() => {
-                fallbackShare(shareText);
-            });
-        } else {
-            fallbackShare(shareText);
-        }
-    }
-}
-
-function fallbackShare(text) {
-    // Create temporary textarea for older browsers
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    
-    try {
-        document.execCommand('copy');
-        showNotification('Link copied to clipboard! 📋', 'success');
-    } catch (err) {
-        showNotification('Unable to copy. Please copy the URL manually.', 'warning');
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-function rateFeedback(rating) {
-    // Visual feedback
-    const buttons = document.querySelectorAll('[onclick^="rateFeedback"]');
-    buttons.forEach((btn, index) => {
-        if (index < rating) {
-            btn.classList.remove('btn-outline-warning');
-            btn.classList.add('btn-warning');
-        } else {
-            btn.classList.remove('btn-warning');
-            btn.classList.add('btn-outline-warning');
-        }
-    });
-    
-    // Store rating (you can send this to backend)
-    localStorage.setItem('advisory_rating', rating);
-    showNotification(`Thank you for rating ${rating} star${rating > 1 ? 's' : ''}! 🌟`, 'success');
-}
-
-function showNotification(message, type = 'info') {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-    notification.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Auto remove after 3 seconds
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
-    }, 3000);
-}
-
-// Add print styles
-const printStyles = `
-    @media print {
-        .btn, .card-header, .badge { -webkit-print-color-adjust: exact !important; }
-        .floating-elements { display: none !important; }
-        .glass-effect { background: white !important; }
-        body { background: white !important; }
-    }
-`;
-
-const styleSheet = document.createElement('style');
-styleSheet.textContent = printStyles;
-document.head.appendChild(styleSheet);
-
-// Initialize page animations
-document.addEventListener('DOMContentLoaded', function() {
-    // Add stagger animation to action items
-    const actionItems = document.querySelectorAll('.action-item');
-    actionItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-20px)';
-        item.style.transition = 'all 0.6s ease';
-        
-        setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateX(0)';
-        }, (index + 1) * 200);
-    });
-    
-    // Add hover effects to metric cards
-    const metricCards = document.querySelectorAll('.glass-effect');
-    metricCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.05)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-});
-</script>
-
+{% endblock %}
+{% block extra_js %}
 <style>
-@media print {
-    .btn, .floating-elements { display: none !important; }
-    .card { box-shadow: none !important; border: 1px solid #ddd !important; }
-    .glass-effect { background: white !important; }
-    body { background: white !important; }
-    .card-header { background: #f8f9fa !important; color: #333 !important; }
-}
-
-.text-brown { color: #8b4513 !important; }
-
-.action-item::before {
-    transition: all 0.3s ease;
-}
-
-.metric-card:hover {
-    transform: translateY(-2px);
-    transition: transform 0.3s ease;
-}
-
-.badge {
-    font-size: 0.75em;
-    padding: 0.5em 0.75em;
-}
-
-.lh-lg {
-    line-height: 1.8 !important;
-}
+.result-check-circle{width:80px;height:80px;background:linear-gradient(135deg,var(--secondary-green),var(--light-green));border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 25px rgba(20,82,20,0.3);}
+.yield-card{background:linear-gradient(135deg,var(--secondary-green),#2e7d32,var(--light-green));border-radius:20px;padding:32px;color:white;box-shadow:0 10px 40px rgba(20,82,20,0.3);}
+.yield-stat-card{background:rgba(255,255,255,0.15);border-radius:14px;padding:20px;backdrop-filter:blur(8px);}
+.yield-stat-value{font-size:2.2rem;font-weight:800;line-height:1;}
+.yield-stat-label{font-size:0.82rem;opacity:0.8;margin-top:4px;}
+.yield-comparison{background:rgba(255,255,255,0.12);border-radius:12px;padding:14px;}
+.farm-info-item{display:flex;align-items:center;gap:12px;background:#f8f9fa;border-radius:10px;padding:12px;}
+.farm-info-item i{font-size:1.2rem;width:20px;text-align:center;}
+.farm-info-item strong{display:block;font-size:0.78rem;color:#666;}
+.farm-info-item span{font-size:0.9rem;font-weight:600;}
+.action-item{background:#fff;border-left:4px solid var(--accent-orange);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:all 0.3s;}
+.action-item:hover{transform:translateX(6px);box-shadow:0 6px 20px rgba(0,0,0,0.1);}
+.action-num{width:44px;height:44px;min-width:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1rem;}
+.shop-card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 3px 15px rgba(0,0,0,0.07);display:flex;align-items:flex-start;gap:14px;transition:all 0.3s;}
+.shop-card:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.12);}
+.shop-icon{width:46px;height:46px;min-width:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;}
+@media print{.btn,.card-header{-webkit-print-color-adjust:exact!important;}.navbar,.footer{display:none!important;}}
 </style>
-
+<script>
+function rate(n){
+    document.querySelectorAll('.star-btn').forEach((b,i)=>{
+        b.classList.toggle('btn-warning',i<n);
+        b.classList.toggle('btn-outline-warning',i>=n);
+    });
+}
+function shareResult(){
+    const text = '🌾 {% trans "Predicted yield" %}: {{ recommendation.predicted_yield|floatformat:0 }} kg/ha for {{ recommendation.farm_input.get_crop_display }} — Krishi Salahkar';
+    if(navigator.share) navigator.share({title:'Krishi Salahkar',text,url:location.href});
+    else navigator.clipboard?.writeText(text+'\n'+location.href).then(()=>alert('{% trans "Copied to clipboard!" %}'));
+}
+</script>
 {% endblock %}

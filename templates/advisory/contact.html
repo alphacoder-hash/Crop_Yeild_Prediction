@@ -1,57 +1,181 @@
 {% extends 'advisory/base.html' %}
-
+{% load i18n %}
+{% block title %}{% trans "Contact Us" %} — Krishi Salahkar{% endblock %}
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0">
-                <div class="card-header text-center" style="background: linear-gradient(135deg, var(--primary-green), var(--secondary-green)); color: white;">
-                    <h3 class="mb-0"><i class="fas fa-envelope me-2"></i>Contact Us</h3>
-                </div>
-                <div class="card-body p-5">
-                    <p class="text-center text-muted mb-4">Have questions about our AI advisory platform? We'd love to hear from you!</p>
 
-                    <form method="post" action="{% url 'contact' %}">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.name.id_for_label }}" class="form-label">Full Name</label>
-                                {{ form.name }}
-                                {% if form.name.errors %}
-                                    <div class="text-danger small">{{ form.name.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                    <div class="text-danger small">{{ form.email.errors }}</div>
-                                {% endif %}
-                            </div>
+<div class="split-page">
+    <div class="container-fluid h-100 p-0">
+        <div class="row g-0 h-100">
+
+            <!-- LEFT: Green panel -->
+            <div class="col-lg-4 split-left d-flex flex-column justify-content-center p-5">
+                <div class="sl-badge mb-3"><i class="fas fa-envelope me-2"></i>{% trans "Get In Touch" %}</div>
+                <h1 class="sl-title mb-2">{% trans "Contact" %}<br><span>{% trans "Us" %}</span></h1>
+                <p class="sl-subtitle mb-5">{% trans "Have questions about our AI advisory platform? We'd love to hear from you!" %}</p>
+
+                <div class="d-flex flex-column gap-3">
+                    <div class="sl-info-card">
+                        <div class="sl-info-icon" style="background:#1b5e20;">
+                            <i class="fas fa-map-marker-alt"></i>
                         </div>
-                        <div class="mb-3">
-                            <label for="{{ form.subject.id_for_label }}" class="form-label">Subject</label>
-                            {{ form.subject }}
-                            {% if form.subject.errors %}
-                                <div class="text-danger small">{{ form.subject.errors }}</div>
-                            {% endif %}
+                        <div>
+                            <div class="sl-info-title">{% trans "Location" %}</div>
+                            <div class="sl-info-text">Bhubaneswar, Odisha, India</div>
                         </div>
-                        <div class="mb-4">
-                            <label for="{{ form.message.id_for_label }}" class="form-label">Message</label>
-                            {{ form.message }}
-                            {% if form.message.errors %}
-                                <div class="text-danger small">{{ form.message.errors }}</div>
-                            {% endif %}
+                    </div>
+                    <div class="sl-info-card">
+                        <div class="sl-info-icon" style="background:#1565c0;">
+                            <i class="fas fa-envelope"></i>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success btn-lg px-5">
-                                <i class="fas fa-paper-plane me-2"></i>Send Message
-                            </button>
+                        <div>
+                            <div class="sl-info-title">{% trans "Email" %}</div>
+                            <div class="sl-info-text">support@krishisalahkar.com</div>
                         </div>
-                    </form>
+                    </div>
+                    <div class="sl-info-card">
+                        <div class="sl-info-icon" style="background:#e65100;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <div class="sl-info-title">{% trans "Response Time" %}</div>
+                            <div class="sl-info-text">{% trans "Within 24 hours" %}</div>
+                        </div>
+                    </div>
+                    <div class="sl-info-card">
+                        <div class="sl-info-icon" style="background:#6a1b9a;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <div class="sl-info-title">{% trans "AI Chatbot" %}</div>
+                            <div class="sl-info-text">{% trans "Available 24/7 on homepage" %}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- RIGHT: White form panel -->
+            <div class="col-lg-8 split-right d-flex flex-column justify-content-center p-4 p-md-5">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show rounded-3 mb-3">
+                        {{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="sr-header mb-4">
+                    <h3 class="fw-bold mb-1">{% trans "Send Us a Message" %}</h3>
+                    <p class="text-muted mb-0">{% trans "Fill in the form below and we'll get back to you shortly." %}</p>
+                </div>
+
+                <form method="post" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="sr-label">{% trans "Full Name" %}</label>
+                            <div class="sr-input-wrap">
+                                <i class="fas fa-user sr-icon"></i>
+                                <input type="text" name="name" class="sr-input" placeholder="{% trans 'Your full name' %}" value="{{ form.name.value|default:'' }}" required>
+                            </div>
+                            {% for e in form.name.errors %}<div class="text-danger small mt-1">{{ e }}</div>{% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="sr-label">{% trans "Email Address" %}</label>
+                            <div class="sr-input-wrap">
+                                <i class="fas fa-envelope sr-icon"></i>
+                                <input type="email" name="email" class="sr-input" placeholder="your@email.com" value="{{ form.email.value|default:'' }}" required>
+                            </div>
+                            {% for e in form.email.errors %}<div class="text-danger small mt-1">{{ e }}</div>{% endfor %}
+                        </div>
+                        <div class="col-12">
+                            <label class="sr-label">{% trans "Subject" %}</label>
+                            <div class="sr-input-wrap">
+                                <i class="fas fa-tag sr-icon"></i>
+                                <input type="text" name="subject" class="sr-input" placeholder="{% trans 'Subject of your message' %}" value="{{ form.subject.value|default:'' }}" required>
+                            </div>
+                            {% for e in form.subject.errors %}<div class="text-danger small mt-1">{{ e }}</div>{% endfor %}
+                        </div>
+                        <div class="col-12">
+                            <label class="sr-label">{% trans "Message" %}</label>
+                            <textarea name="message" class="sr-input sr-textarea" rows="4" placeholder="{% trans 'Tell us how we can help you...' %}" required>{{ form.message.value|default:'' }}</textarea>
+                            {% for e in form.message.errors %}<div class="text-danger small mt-1">{{ e }}</div>{% endfor %}
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="sr-submit-btn">
+                                <i class="fas fa-paper-plane me-2"></i>{% trans "Send Message" %}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
+
+{% endblock %}
+{% block extra_js %}
+<style>
+.split-page { min-height: calc(100vh - 70px); display: flex; }
+.split-left {
+    background: linear-gradient(160deg, #0b3d0b 0%, #145214 60%, #1b5e20 100%);
+    position: relative; overflow: hidden;
+}
+.split-left::after {
+    content: '✉️'; position: absolute; font-size: 14rem;
+    opacity: 0.05; bottom: -2rem; right: -2rem; pointer-events: none;
+}
+.sl-badge {
+    display: inline-flex; align-items: center;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 30px; padding: 6px 16px;
+    color: #fff; font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.5px; width: fit-content;
+}
+.sl-title {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 900; color: #fff; line-height: 1.1;
+}
+.sl-title span { color: #a5d6a7; }
+.sl-subtitle { color: rgba(255,255,255,0.85); font-size: 1rem; line-height: 1.65; }
+.sl-info-card {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 14px; padding: 14px 16px;
+    transition: all 0.25s;
+}
+.sl-info-card:hover { background: rgba(255,255,255,0.2); transform: translateX(4px); }
+.sl-info-icon {
+    width: 42px; height: 42px; min-width: 42px;
+    border-radius: 11px; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-size: 1rem;
+}
+.sl-info-title { color: #fff; font-weight: 700; font-size: 0.88rem; }
+.sl-info-text { color: rgba(255,255,255,0.75); font-size: 0.82rem; margin-top: 1px; }
+
+.split-right { background: #f8faf8; }
+.sr-header h3 { color: #1a1a1a; }
+.sr-label { font-weight: 700; font-size: 0.85rem; color: #333; margin-bottom: 6px; display: block; }
+.sr-input-wrap { position: relative; }
+.sr-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #999; font-size: 0.85rem; z-index: 2; }
+.sr-input {
+    width: 100%; padding: 11px 14px 11px 38px;
+    border: 2px solid #e2e8e2; border-radius: 11px;
+    font-size: 0.92rem; color: #222; background: #fff;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.sr-input:focus { border-color: #145214; box-shadow: 0 0 0 3px rgba(20,82,20,0.1); }
+.sr-textarea { padding: 11px 14px !important; resize: vertical; min-height: 110px; }
+.sr-submit-btn {
+    width: 100%; padding: 13px;
+    background: linear-gradient(135deg, #145214, #66bb6a);
+    color: #fff; border: none; border-radius: 12px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
+    transition: all 0.3s; letter-spacing: 0.3px;
+}
+.sr-submit-btn:hover { background: linear-gradient(135deg, #0b3d0b, #145214); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(20,82,20,0.3); }
+@media(max-width:991px) { .split-left { padding: 40px 30px !important; } .split-right { padding: 30px !important; } }
+</style>
 {% endblock %}
